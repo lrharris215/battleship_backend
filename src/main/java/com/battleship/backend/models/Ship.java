@@ -16,9 +16,38 @@ public class Ship {
         this.status = "OK";
     }
 
-    public void rotate(){};
+    public void rotate(){
+        int temp = getWidth();
+        setWidth(getHeight());
+        setHeight(temp);
+    }
 
-    public void receiveHit(){};
+    public void receiveHit(){}
+
+
+    // getters
+    public String getName(){
+        return name;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public int getWidth(){
+        return width;
+    }
+
+    public int getHeight(){
+        return height;
+    }
+
+    public void setWidth(int newWidth){
+        width = newWidth;
+    }
+    public void setHeight(int newHeight){
+        height = newHeight;
+    }
 
 
 }
