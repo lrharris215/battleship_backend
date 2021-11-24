@@ -1,11 +1,15 @@
 package com.battleship.backend.models;
 
+import java.util.Arrays;
+
 public class Ship {
     int width;
     int height;
 
     String name;
     String status;
+
+    ShipSection[] shipSections;
 
 
 
@@ -14,6 +18,9 @@ public class Ship {
         this.height = 1;
         this.width = length;
         this.status = "OK";
+
+        shipSections = new ShipSection[length];
+        Arrays.fill(shipSections, new ShipSection());
     }
 
     public void rotate(){
