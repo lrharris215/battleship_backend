@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.6.0'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'application'
 }
 
 group = 'com.battleship'
@@ -13,10 +14,14 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.5.6'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.6'
 }
 
 test {
 	useJUnitPlatform()
+}
+
+application {
+	getMainClass().set('com.battleship.backend.BattleshipApplication')
 }
