@@ -20,7 +20,13 @@ public class Ship {
         this.status = "OK";
 
         shipSections = new ShipSection[length];
-        Arrays.fill(shipSections, new ShipSection());
+        fillShip();
+    }
+
+    public void fillShip(){
+        for(int i = 0; i < shipSections.length; i++){
+            shipSections[i] = new ShipSection(this);
+        }
     }
 
     public void rotate(){
@@ -54,6 +60,10 @@ public class Ship {
     }
     public void setHeight(int newHeight){
         height = newHeight;
+    }
+
+    public ShipSection[] getShipSections(){
+        return shipSections;
     }
 
 
