@@ -1,24 +1,25 @@
 package com.battleship.backend.models;
 
 public class ShipSection implements Sectionable{
-    String status;
+    boolean isHit;
     Ship ship;
 
+
     public ShipSection(Ship ship){
-        status = "OK";
+        isHit = false;
         this.ship = ship;
     }
 
     public void receiveHit() {
-        status = "HIT";
+        isHit = true;
     }
 
     public String toString(){
         return "ShipSection of  " + ship.getName();
     }
 
-    public String getStatus(){
-        return status;
+    public boolean getStatus(){
+        return isHit;
     }
 
     public String getShip(){

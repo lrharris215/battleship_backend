@@ -7,7 +7,7 @@ public class Ship {
     int height;
 
     String name;
-    String status;
+    boolean isSunk;
 
     ShipSection[] shipSections;
 
@@ -17,7 +17,7 @@ public class Ship {
         this.name = name;
         this.height = 1;
         this.width = length;
-        this.status = "OK";
+        isSunk = false;
 
         shipSections = new ShipSection[length];
         fillShip();
@@ -35,16 +35,22 @@ public class Ship {
         setHeight(temp);
     }
 
-    public void receiveHit(){}
+    public boolean isSunk(){
+        for (ShipSection shipSection : shipSections) {
+            if (!shipSection.getStatus()) {
+                return false;
+            }
+        }
+        isSunk = true;
+        return true;
+    }
+
+
 
 
     // getters
     public String getName(){
         return name;
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     public int getWidth(){
@@ -55,6 +61,11 @@ public class Ship {
         return height;
     }
 
+    public ShipSection[] getShipSections(){
+        return shipSections;
+    }
+
+    //setters
     public void setWidth(int newWidth){
         width = newWidth;
     }
@@ -62,9 +73,7 @@ public class Ship {
         height = newHeight;
     }
 
-    public ShipSection[] getShipSections(){
-        return shipSections;
-    }
+
 
 
 }
