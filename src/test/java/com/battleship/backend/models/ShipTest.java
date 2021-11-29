@@ -42,22 +42,6 @@ class ShipTest {
         assertFalse(testShip.checkIsSunk());
     }
 
-    @Test
-    void testSetWidthSetsTheWidth() {
-        int newWidth = 4;
-        testShip.setWidth(newWidth);
-
-        assertEquals(newWidth, testShip.getWidth());
-    }
-
-    @Test
-    void testSetHeightSetsTheHeight() {
-        int newHeight = 4;
-        testShip.setHeight(newHeight);
-
-        assertEquals(newHeight, testShip.getHeight());
-    }
-
     void sinkShip(Ship ship){
         for(ShipSection shipSection : ship.getShipSections()){
             shipSection.receiveHit();
