@@ -35,16 +35,15 @@ public class Ship {
         setHeight(temp);
     }
 
-    public boolean isSunk(){
+    public boolean checkIsSunk(){
         for (ShipSection shipSection : shipSections) {
-            if (!shipSection.getStatus()) {
+            if (!shipSection.getIsHit()) {
                 return false;
             }
         }
         isSunk = true;
         return true;
     }
-
 
 
 
@@ -63,6 +62,10 @@ public class Ship {
 
     public ShipSection[] getShipSections(){
         return shipSections;
+    }
+
+    public boolean getIsSunk(){
+        return isSunk;
     }
 
     //setters

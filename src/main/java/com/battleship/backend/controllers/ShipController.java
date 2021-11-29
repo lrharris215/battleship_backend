@@ -13,6 +13,11 @@ public class ShipController {
     public @ResponseBody
     Ship getShip(){
         Ship ship = new Ship("Test Ship", 4);
+        ShipSection[] shipSections = ship.getShipSections();
+        for(ShipSection shipSection : shipSections){
+            shipSection.receiveHit();
+        }
+        ship.checkIsSunk();
         return ship;
     }
 }
