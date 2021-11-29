@@ -26,8 +26,20 @@ class ShipTest {
     }
 
     @Test
-    void checkIsSunk() {
+    void testCheckIsSunkReturnsTrueIfAllShipSectionsAreHit() {
+        sinkShip(testShip);
+        assertTrue(testShip.checkIsSunk());
+    }
 
+    @Test
+    void testCheckIsSunkReturnsFalseIfNoSectionsAreHit(){
+        assertFalse(testShip.checkIsSunk());
+    }
+    @Test
+    void testCheckIsSunkReturnsFalseIfOnly1SectionIsHit(){
+        testShip.getShipSections()[0].receiveHit();
+
+        assertFalse(testShip.checkIsSunk());
     }
 
     @Test
@@ -44,5 +56,11 @@ class ShipTest {
         testShip.setHeight(newHeight);
 
         assertEquals(newHeight, testShip.getHeight());
+    }
+
+    void sinkShip(Ship ship){
+        for(ShipSection shipSection : ship.getShipSections()){
+            shipSection.receiveHit();
+        }
     }
 }
