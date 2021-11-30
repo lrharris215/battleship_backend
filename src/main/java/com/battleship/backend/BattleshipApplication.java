@@ -9,8 +9,6 @@ public class BattleshipApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BattleshipApplication.class, args);
-
-		Board board = new Board("Player Board");
 	}
 
 }
