@@ -8,10 +8,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class BoardController {
+    BoardRepository boardRepository;
+
+    public BoardController(BoardRepository boardRepository){
+        this.boardRepository = boardRepository;
+    }
 
     @GetMapping("/boards")
     public @ResponseBody
-    Board[] getBoards(BoardRepository boardRepository) {
+    Board[] getBoards() {
 
         return boardRepository.getBoards();
     }

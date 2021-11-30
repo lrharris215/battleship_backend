@@ -1,5 +1,6 @@
 package com.battleship.backend;
 
+import com.battleship.backend.controllers.BoardController;
 import com.battleship.backend.controllers.WelcomeController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +16,21 @@ class BattleshipApplicationTests {
 	@Autowired
 	private WelcomeController welcomeController;
 
+	@Autowired
+	private BoardController boardController;
+
 	@Test
 	void contextLoads() {
 	}
 
 	@Test
-	void testTest(){
-		int five = 5;
-		assertEquals(8, five + 3);
+	void testWelcomeControllerExists() throws Exception {
+		assertThat(welcomeController).isNotNull();
 	}
 
 	@Test
-	void testWelcomeControllerExists() throws Exception {
-		assertThat(welcomeController).isNotNull();
+	void testBoardControllerExists() throws Exception {
+		assertThat(boardController).isNotNull();
 	}
 
 }
