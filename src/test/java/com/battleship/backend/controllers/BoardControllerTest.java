@@ -1,12 +1,10 @@
 package com.battleship.backend.controllers;
 
 import com.battleship.backend.BoardRepository;
-import com.battleship.backend.models.Board;
-import com.battleship.backend.models.Ship;
+import com.battleship.backend.models.*;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.mockito.Mockito;
 
@@ -18,14 +16,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.context.WebApplicationContext;
 
 @WebMvcTest(BoardController.class)
 class BoardControllerTest {
 
     Board[] boards = new Board[] {new Board("test")};
+
     @Autowired
     private MockMvc mockMvc;
+    private WebApplicationContext wac;
 
     @MockBean
     private BoardRepository boardRepository;
@@ -38,9 +44,67 @@ class BoardControllerTest {
     }
 
 
-    // TODO: fill in test for patch request
     @Test
     public void placeShipsPatchesShipOntoPlayerBoard() throws Exception {
+        Mockito.when(boardRepository.getPlayerBoard()).thenReturn(new TestBoard());
         Ship testShip = new Ship("test", 2);
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.patch("/board/place")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(getPlaceRequestInJSON(testShip, 0, 0));
+
+        String testBoardJSON = "{\"name\":\"testBoard\",\"grid\":[[{\"isHit\":false,\"isShip\":true,\"shipName\":\"test\"},{\"isHit\":false,\"isShip\":true,\"shipName\":\"test\"},{\"isHit\":false,\"isShip\":false}],[{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}],[{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}]]}";
+
+        this.mockMvc.perform(builder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(testBoardJSON))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    private String getPlaceRequestInJSON(Ship ship, int row, int col){
+        return "{\"ship\": { \"name\":\"" + ship.getName() + "\", \"width\": " + ship.getWidth() + ", \"height\": "+ ship.getHeight() + ", \"isSunk\": "+ ship.getIsSunk() + ", \"shipSections\": [{\"isHit\": false, \"isShip\": true, \"shipName\": \"test\"},{\"isHit\": false, \"isShip\": true, \"shipName\": \"test\"}]}, \"row\": " + row + " , \"col\": " + col + "}";
+
+    }
+
+    public class TestBoard implements Boardable {
+        String name;
+        Sectionable[][] grid;
+        public TestBoard(){
+            name = "testBoard";
+            grid = new Sectionable[3][3];
+            setUpBoard();
+        }
+        public String getName() {
+            return name;
+        }
+
+        public Sectionable getSection(int row, int col) {
+            return grid[row][col];
+        }
+
+        public Sectionable[][] getGrid() {
+            return grid;
+        }
+
+        public void addShip(Ship ship, int row, int col) {
+            grid[0][0] = ship.getShipSection(0);
+            grid[0][1] = ship.getShipSection(1);
+        }
+
+        public void addSection(Sectionable section, int row, int col) {
+
+        }
+        private void setUpBoard() {
+            for (int i = 0; i < grid.length; i++) {
+                for (int j = 0; j < grid[i].length; j++) {
+                    grid[i][j] = new NullSection();
+                }
+            }
+        }
     }
 }
+
+

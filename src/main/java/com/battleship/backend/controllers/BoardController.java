@@ -1,6 +1,7 @@
 package com.battleship.backend.controllers;
 import com.battleship.backend.BoardRepository;
 import com.battleship.backend.models.Board;
+import com.battleship.backend.models.Boardable;
 import com.battleship.backend.models.PlaceRequest;
 import com.battleship.backend.models.Ship;
 import org.springframework.stereotype.Component;
@@ -17,15 +18,15 @@ public class BoardController {
 
     @GetMapping("/boards")
     public @ResponseBody
-    Board[] getBoards() {
+    Boardable[] getBoards() {
 
         return boardRepository.getBoards();
     }
 
     @PatchMapping("/board/place")
     public @ResponseBody
-    Board placeShips(@RequestBody PlaceRequest placeRequest){
-        Board playerBoard = boardRepository.getPlayerBoard();
+    Boardable placeShips(@RequestBody PlaceRequest placeRequest){
+        Boardable playerBoard = boardRepository.getPlayerBoard();
         playerBoard.addShip(placeRequest.getShip(), placeRequest.getRow(), placeRequest.getCol());
         return playerBoard;
     }
