@@ -12,7 +12,7 @@ public class BoardRepository {
     public BoardRepository(){
         playerBoard = new Board("Player Board");
         computerBoard = new Board("Computer Board");
-        boards = new Board[] { playerBoard, computerBoard};
+        boards = new Board[] {playerBoard, computerBoard};
     }
     public Board[] getBoards(){
         return boards;

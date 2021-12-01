@@ -12,25 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class BattleshipApplicationTests {
 
-
-	@Autowired
-	private WelcomeController welcomeController;
-
-	@Autowired
-	private BoardController boardController;
-
 	@Test
 	void contextLoads() {
-	}
-
-	@Test
-	void testWelcomeControllerExists() throws Exception {
-		assertThat(welcomeController).isNotNull();
-	}
-
-	@Test
-	void testBoardControllerExists() throws Exception {
-		assertThat(boardController).isNotNull();
 	}
 
 }
