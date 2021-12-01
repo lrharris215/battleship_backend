@@ -1,6 +1,6 @@
 package com.battleship.backend.models;
 
-public class Board {
+public class Board implements Boardable{
     Sectionable[][] grid;
     String name;
 
