@@ -29,7 +29,7 @@ public class Ship {
 
     public void fillShip(){
         for(int i = 0; i < shipSections.length; i++) {
-            shipSections[i] = new ShipSection();
+            shipSections[i] = new ShipSection(getName());
         }
     }
 

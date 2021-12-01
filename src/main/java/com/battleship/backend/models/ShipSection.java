@@ -3,12 +3,26 @@ package com.battleship.backend.models;
 public class ShipSection implements Sectionable {
     boolean isHit;
     boolean isShip;
+    String shipName;
 
     public ShipSection() {
         isHit = false;
         isShip = true;
-
+        shipName = "";
     }
+
+    public ShipSection(String shipName){
+        isHit = false;
+        isShip = true;
+        this.shipName = shipName;
+    }
+
+    public void receiveHit() {
+        isHit = true;
+    }
+
+    //Getters
+
     public boolean getIsHit() {
         return isHit;
     }
@@ -17,7 +31,7 @@ public class ShipSection implements Sectionable {
         return isShip;
     }
 
-    public void receiveHit() {
-        isHit = true;
+    public String getShipName(){
+        return shipName;
     }
 }
