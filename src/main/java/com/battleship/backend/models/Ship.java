@@ -13,7 +13,7 @@ public class Ship {
 
 
 
-    public Ship(String name, int length){
+    public Ship(String name, int length) {
         this.name = name;
         this.height = 1;
         this.width = length;
@@ -24,18 +24,18 @@ public class Ship {
     }
 
     public void fillShip(){
-        for(int i = 0; i < shipSections.length; i++){
+        for(int i = 0; i < shipSections.length; i++) {
             shipSections[i] = new ShipSection(this);
         }
     }
 
-    public void rotate(){
+    public void rotate() {
         int temp = getWidth();
         setWidth(getHeight());
         setHeight(temp);
     }
 
-    public boolean checkIsSunk(){
+    public boolean checkIsSunk() {
         for (ShipSection shipSection : shipSections) {
             if (!shipSection.getIsHit()) {
                 return false;
@@ -48,31 +48,31 @@ public class Ship {
 
 
     // getters
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return width;
     }
 
-    public int getHeight(){
+    public int getHeight() {
         return height;
     }
 
-    public ShipSection[] getShipSections(){
+    public ShipSection[] getShipSections() {
         return shipSections;
     }
 
-    public boolean getIsSunk(){
+    public boolean getIsSunk() {
         return isSunk;
     }
 
     //setters
-    public void setWidth(int newWidth){
+    public void setWidth(int newWidth) {
         width = newWidth;
     }
-    public void setHeight(int newHeight){
+    public void setHeight(int newHeight) {
         height = newHeight;
     }
 
