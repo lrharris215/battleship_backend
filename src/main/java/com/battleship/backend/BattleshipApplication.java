@@ -1,6 +1,5 @@
 package com.battleship.backend;
 
-import com.battleship.backend.models.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

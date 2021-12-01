@@ -1,17 +1,17 @@
 package com.battleship.backend.models;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class ShipTest {
     Ship testShip;
     @BeforeEach
-    void initTestShip(){
+    void initTestShip() {
         testShip = new Ship("Test", 3);
     }
+
     @Test
     void testFillShipPlacesShipSections() {
         assertNotNull(testShip.getShipSections());
@@ -32,18 +32,18 @@ class ShipTest {
     }
 
     @Test
-    void testCheckIsSunkReturnsFalseIfNoSectionsAreHit(){
+    void testCheckIsSunkReturnsFalseIfNoSectionsAreHit() {
         assertFalse(testShip.checkIsSunk());
     }
     @Test
-    void testCheckIsSunkReturnsFalseIfOnly1SectionIsHit(){
+    void testCheckIsSunkReturnsFalseIfOnly1SectionIsHit() {
         testShip.getShipSections()[0].receiveHit();
 
         assertFalse(testShip.checkIsSunk());
     }
 
     void sinkShip(Ship ship){
-        for(ShipSection shipSection : ship.getShipSections()){
+        for(ShipSection shipSection : ship.getShipSections()) {
             shipSection.receiveHit();
         }
     }

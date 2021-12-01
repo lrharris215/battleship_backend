@@ -5,20 +5,22 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BoardRepository {
-    Board[] boards;
-    Board playerBoard;
-    Board computerBoard;
 
-    public BoardRepository(){
+    private final Board[] boards;
+    private final Board playerBoard;
+    private final Board computerBoard;
+
+    public BoardRepository() {
         playerBoard = new Board("Player Board");
         computerBoard = new Board("Computer Board");
-        boards = new Board[] {playerBoard, computerBoard};
+        boards = new Board[] { playerBoard, computerBoard };
     }
-    public Board[] getBoards(){
+
+    public Board[] getBoards() {
         return boards;
     }
 
-    public Board getPlayerBoard(){
+    public Board getPlayerBoard() {
         return playerBoard;
     }
 

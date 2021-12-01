@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(BoardController.class)
 class BoardControllerTest {
-    Board[] boards = new Board[] { new Board("test")};
+    Board[] boards = new Board[] {new Board("test")};
     @Autowired
     private MockMvc mockMvc;
 

@@ -10,7 +10,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment =  WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class WelcomeControllerTest {
 
     @LocalServerPort
@@ -20,7 +20,9 @@ public class WelcomeControllerTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void welcomeMessageIsDisplayed() throws Exception{
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/", String.class)).contains("Welcome to Battleship");
+    public void welcomeMessageIsDisplayed() throws Exception {
+        assertThat(this.restTemplate
+                .getForObject("http://localhost:" + port + "/", String.class))
+                .contains("Welcome to Battleship");
     }
 }

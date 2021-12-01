@@ -20,15 +20,15 @@ public class Board {
     }
 
     private void setUpBoard() {
-        for(int i = 0; i < grid.length; i++){
-            for(int j = 0; j < grid[i].length; j++){
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
                 grid[i][j] = new NullSection();
             }
         }
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Name: " + getName() + ", grid: " + getGrid().length;
     }
 

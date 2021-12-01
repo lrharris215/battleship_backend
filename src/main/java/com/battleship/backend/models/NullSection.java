@@ -1,9 +1,9 @@
 package com.battleship.backend.models;
 
-public class NullSection implements Sectionable{
+public class NullSection implements Sectionable {
     boolean isHit;
 
-    public NullSection(){
+    public NullSection() {
         isHit = false;
     }
 
@@ -11,11 +11,11 @@ public class NullSection implements Sectionable{
         isHit = true;
     }
 
-    public boolean getIsHit(){
+    public boolean getIsHit() {
         return isHit;
     }
 
-    public String getShip(){
+    public String getShip() {
         return null;
     }
 }
