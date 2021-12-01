@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(BoardController.class)
 class BoardControllerTest {
+
     Board[] boards = new Board[] {new Board("test")};
     @Autowired
     private MockMvc mockMvc;
@@ -33,5 +34,12 @@ class BoardControllerTest {
         Mockito.when(boardRepository.getBoards()).thenReturn(boards);
 
         this.mockMvc.perform(get("/boards")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("test")));
+    }
+
+
+    // TODO: fill in test for patch request
+    @Test
+    public void placeShipsPatchesShipOntoPlayerBoard() throws Exception {
+
     }
 }

@@ -64,6 +64,10 @@ public class Ship {
         return shipSections;
     }
 
+    public ShipSection getShipSection(int idx){
+        return shipSections[idx];
+    }
+
     public boolean getIsSunk() {
         return isSunk;
     }

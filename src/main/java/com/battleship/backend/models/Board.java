@@ -19,6 +19,10 @@ public class Board {
         return name;
     }
 
+    public Sectionable getSection(int row, int col){
+        return grid[row][col];
+    }
+
     private void setUpBoard() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
@@ -31,6 +35,8 @@ public class Board {
     public String toString() {
         return "Name: " + getName() + ", grid: " + getGrid().length;
     }
+
+
 
 
 
