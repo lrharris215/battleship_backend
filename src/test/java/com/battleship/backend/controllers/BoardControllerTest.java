@@ -1,6 +1,7 @@
 package com.battleship.backend.controllers;
 
 import com.battleship.backend.BoardRepository;
+import com.battleship.backend.TestClasses;
 import com.battleship.backend.models.*;
 import org.junit.jupiter.api.Test;
 
@@ -46,7 +47,7 @@ class BoardControllerTest {
 
     @Test
     public void placeShipsPatchesShipOntoPlayerBoard() throws Exception {
-        Mockito.when(boardRepository.getPlayerBoard()).thenReturn(new TestBoard());
+        Mockito.when(boardRepository.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
         Ship testShip = new Ship("test", 2);
 
         MockHttpServletRequestBuilder builder =
@@ -67,43 +68,6 @@ class BoardControllerTest {
     private String getPlaceRequestInJSON(Ship ship, int row, int col){
         return "{\"ship\": { \"name\":\"" + ship.getName() + "\", \"width\": " + ship.getWidth() + ", \"height\": "+ ship.getHeight() + ", \"isSunk\": "+ ship.getIsSunk() + ", \"shipSections\": [{\"isHit\": false, \"isShip\": true, \"shipName\": \"test\"},{\"isHit\": false, \"isShip\": true, \"shipName\": \"test\"}]}, \"row\": " + row + " , \"col\": " + col + "}";
 
-    }
-
-    public class TestBoard implements Boardable {
-        String name;
-        Sectionable[][] grid;
-        public TestBoard(){
-            name = "testBoard";
-            grid = new Sectionable[3][3];
-            setUpBoard();
-        }
-        public String getName() {
-            return name;
-        }
-
-        public Sectionable getSection(int row, int col) {
-            return grid[row][col];
-        }
-
-        public Sectionable[][] getGrid() {
-            return grid;
-        }
-
-        public void addShip(Ship ship, int row, int col) {
-            grid[0][0] = ship.getShipSection(0);
-            grid[0][1] = ship.getShipSection(1);
-        }
-
-        public void addSection(Sectionable section, int row, int col) {
-
-        }
-        private void setUpBoard() {
-            for (int i = 0; i < grid.length; i++) {
-                for (int j = 0; j < grid[i].length; j++) {
-                    grid[i][j] = new NullSection();
-                }
-            }
-        }
     }
 }
 
