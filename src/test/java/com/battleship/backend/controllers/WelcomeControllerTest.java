@@ -1,4 +1,4 @@
-package com.battleship.backend;
+package com.battleship.backend.controllers;
 
 import org.junit.jupiter.api.Test;
 

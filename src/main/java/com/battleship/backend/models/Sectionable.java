@@ -6,5 +6,7 @@ public interface Sectionable {
 
     boolean getIsHit();
 
+    boolean getIsShip();
+
 }
 

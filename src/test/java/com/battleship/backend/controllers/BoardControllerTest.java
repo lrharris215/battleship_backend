@@ -2,6 +2,7 @@ package com.battleship.backend.controllers;
 
 import com.battleship.backend.BoardRepository;
 import com.battleship.backend.models.Board;
+import com.battleship.backend.models.Ship;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.Matchers.containsString;
@@ -40,6 +41,6 @@ class BoardControllerTest {
     // TODO: fill in test for patch request
     @Test
     public void placeShipsPatchesShipOntoPlayerBoard() throws Exception {
-
+        Ship testShip = new Ship("test", 2);
     }
 }
