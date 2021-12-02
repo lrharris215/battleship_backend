@@ -8,7 +8,7 @@ public class Board implements Boardable{
         this.name = name;
         grid = new Sectionable[10][10];
 
-        setUpBoard();
+        setUp();
     }
 
     public Sectionable[][] getGrid(){
@@ -36,7 +36,7 @@ public class Board implements Boardable{
         grid[row][col] = section;
     }
 
-    private void setUpBoard() {
+    private void setUp() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 grid[i][j] = new NullSection();

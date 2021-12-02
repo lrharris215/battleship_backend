@@ -29,12 +29,12 @@ public class Ship {
 
     public void fillShip(){
         for(int i = 0; i < shipSections.length; i++) {
-            shipSections[i] = new ShipSection(getName());
+            shipSections[i] = new ShipSection(name);
         }
     }
 
     public void rotate() {
-        int temp = getWidth();
+        int temp = width;
         setWidth(getHeight());
         setHeight(temp);
     }
