@@ -57,7 +57,7 @@ class BoardControllerTest {
                         .characterEncoding("UTF-8")
                         .content(getPlaceRequestInJSON(testShip, 0, 0));
 
-        String testBoardJSON = "{\"name\":\"testBoard\",\"grid\":[[{\"isHit\":false,\"isShip\":true,\"shipName\":\"test\"},{\"isHit\":false,\"isShip\":true,\"shipName\":\"test\"},{\"isHit\":false,\"isShip\":false}],[{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}],[{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}]]}";
+        String testBoardJSON = "{\"name\":\"testBoard\",\"grid\":[[{\"isShip\":true,\"isHit\":false,\"shipName\":\"test\"},{\"isShip\":true,\"isHit\":false,\"shipName\":\"test\"},{\"isHit\":false,\"isShip\":false}],[{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}],[{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}]]}";
 
         this.mockMvc.perform(builder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
