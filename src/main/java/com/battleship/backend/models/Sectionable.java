@@ -6,6 +6,7 @@ public interface Sectionable {
 
     boolean getIsHit();
 
-    String getShip();
+    boolean getIsShip();
+
 }
 

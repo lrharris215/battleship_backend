@@ -1,6 +1,7 @@
 package com.battleship.backend;
 
 import com.battleship.backend.models.Board;
+import com.battleship.backend.models.Boardable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,15 +17,15 @@ public class BoardRepository {
         boards = new Board[] { playerBoard, computerBoard };
     }
 
-    public Board[] getBoards() {
+    public Boardable[] getBoards() {
         return boards;
     }
 
-    public Board getPlayerBoard() {
+    public Boardable getPlayerBoard() {
         return playerBoard;
     }
 
-    public Board getComputerBoard() {
+    public Boardable getComputerBoard() {
         return computerBoard;
     }
 }
