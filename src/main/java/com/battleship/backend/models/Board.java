@@ -3,10 +3,12 @@ package com.battleship.backend.models;
 public class Board implements Boardable{
     Sectionable[][] grid;
     String name;
+    int size;
 
     public Board(String name){
         this.name = name;
-        grid = new Sectionable[10][10];
+        int size = 10;
+        grid = new Sectionable[size][size];
 
         setUp();
     }
@@ -21,6 +23,10 @@ public class Board implements Boardable{
 
     public Sectionable getSection(int row, int col){
         return grid[row][col];
+    }
+
+    public int getSize(){
+        return size;
     }
 
     public void addShip(Ship ship, int row, int col){
