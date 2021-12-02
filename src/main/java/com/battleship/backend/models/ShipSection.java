@@ -1,8 +1,8 @@
 package com.battleship.backend.models;
 
 public class ShipSection implements Sectionable {
+    final boolean isShip;
     boolean isHit;
-    boolean isShip;
     String shipName;
 
     public ShipSection() {

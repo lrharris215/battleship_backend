@@ -2,7 +2,7 @@ package com.battleship.backend.models;
 
 public class NullSection implements Sectionable {
     boolean isHit;
-    boolean isShip;
+    final boolean isShip;
 
     public NullSection() {
         isHit = false;
