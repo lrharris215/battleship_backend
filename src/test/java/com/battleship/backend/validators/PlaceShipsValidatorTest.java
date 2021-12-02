@@ -39,7 +39,7 @@ class PlaceShipsValidatorTest {
 
     @Test
     void testIsValidReturnsFalseIfShipLengthWouldGoOverEdgeOfBoard(){
-        assertFalse(validator.isValid(testBoard, testShip, 2, 0));
+        assertFalse(validator.isValid(testBoard, testShip, 0, 2));
     }
 
     @Test

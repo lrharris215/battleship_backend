@@ -5,6 +5,7 @@ public interface Boardable {
     Sectionable getSection(int row, int col);
     Sectionable[][] getGrid();
     void addShip(Ship ship, int row, int col);
+    int getSize();
 
     void addSection(Sectionable section, int row, int col);
 
