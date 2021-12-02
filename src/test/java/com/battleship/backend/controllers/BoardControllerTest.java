@@ -3,6 +3,7 @@ package com.battleship.backend.controllers;
 import com.battleship.backend.BoardRepository;
 import com.battleship.backend.TestClasses;
 import com.battleship.backend.models.*;
+import com.battleship.backend.validators.Validator;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.Matchers.containsString;
@@ -36,6 +37,8 @@ class BoardControllerTest {
 
     @MockBean
     private BoardRepository boardRepository;
+    @MockBean
+    private Validator validator;
 
     @Test
     public void getBoardsReturnsBothBoards() throws Exception {
@@ -48,6 +51,7 @@ class BoardControllerTest {
     @Test
     public void placeShipsPatchesShipOntoPlayerBoard() throws Exception {
         Mockito.when(boardRepository.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
+        Mockito.when(validator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Ship.class), Mockito.isA(int.class), Mockito.isA(int.class))).thenReturn(true);
         Ship testShip = new Ship("test", 2);
 
         MockHttpServletRequestBuilder builder =
