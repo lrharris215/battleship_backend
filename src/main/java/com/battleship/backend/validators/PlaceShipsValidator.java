@@ -20,7 +20,7 @@ public class PlaceShipsValidator implements Validator {
         int row = placeRequest.getRow();
         int col = placeRequest.getCol();
 
-        if(ship == null || !ship.getClass().getName().equals("com.battleship.backend.models.Ship")){
+        if(ship == null){
             return false;
         }
 
