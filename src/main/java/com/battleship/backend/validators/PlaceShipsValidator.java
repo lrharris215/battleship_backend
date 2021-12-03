@@ -20,6 +20,10 @@ public class PlaceShipsValidator implements Validator {
         int row = placeRequest.getRow();
         int col = placeRequest.getCol();
 
+        if(ship == null || !ship.getClass().getName().equals("com.battleship.backend.models.Ship")){
+            return false;
+        }
+
         for(int i = 0; i < ship.getWidth(); i++){
             if(!isPositionValid(board, row, col + i) || !isPositionEmpty(board, row, col + i)){
 
