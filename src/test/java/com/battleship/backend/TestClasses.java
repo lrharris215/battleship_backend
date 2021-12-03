@@ -26,6 +26,8 @@ public class TestClasses {
                 return grid;
             }
 
+            public int getSize(){ return 3; }
+
             public void addShip(Ship ship, int row, int col) {
                 grid[0][0] = ship.getShipSection(0);
                 grid[0][1] = ship.getShipSection(1);
