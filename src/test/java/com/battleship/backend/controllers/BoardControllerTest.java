@@ -38,7 +38,9 @@ class BoardControllerTest {
     @MockBean
     private BoardRepository boardRepository;
     @MockBean
-    private Validator validator;
+    private Validator placeValidator;
+    @MockBean
+    private Validator hitValidator;
 
     @Test
     public void getBoardsReturnsBothBoards() throws Exception {
@@ -51,7 +53,7 @@ class BoardControllerTest {
     @Test
     public void placeShipsPatchesShipOntoPlayerBoard() throws Exception {
         Mockito.when(boardRepository.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
-        Mockito.when(validator.isValid(Mockito.isA(Boardable.class), Mockito.isA(PlaceRequest.class))).thenReturn(true);
+        Mockito.when(placeValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(PlaceRequest.class))).thenReturn(true);
         Ship testShip = new Ship("test", 2);
 
         MockHttpServletRequestBuilder builder =
@@ -72,7 +74,7 @@ class BoardControllerTest {
     @Test
     public void testPlaceShipsThrowsExceptionIfInvalid() throws Exception{
         Mockito.when(boardRepository.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
-        Mockito.when(validator.isValid(Mockito.isA(Boardable.class), Mockito.isA(PlaceRequest.class))).thenReturn(false);
+        Mockito.when(placeValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(PlaceRequest.class))).thenReturn(false);
         Ship testShip = new Ship("test", 2);
 
         MockHttpServletRequestBuilder builder =
@@ -87,10 +89,81 @@ class BoardControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string(containsString("That is not a valid placement!")));
     }
 
+    @Test
+    void testHitShipUpdatesShipStatusOnComputerBoard() throws Exception {
+        Boardable testBoard = new TestClasses.TestBoard();
+        Ship testShip = new Ship("test", 2);
+        testBoard.addShip(testShip, 0, 0);
+        Mockito.when(boardRepository.getComputerBoard()).thenReturn(testBoard);
+
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.patch("/board/hit")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(getHitRequestInJSON());
+
+        //Returned board with ship hit.
+        String testBoardJSON = "{\"name\":\"testBoard\",\"grid\":[[{\"isShip\":true,\"isHit\":true,\"shipName\":\"test\"},{\"isShip\":true,\"isHit\":false,\"shipName\":\"test\"},{\"isHit\":false,\"isShip\":false}],[{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}],[{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}]],\"size\":3}";
+
+        this.mockMvc.perform(builder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(testBoardJSON))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    void testHitShipUpdatesHitStatusOfOceanOnComputerBoard() throws Exception {
+        Boardable testBoard = new TestClasses.TestBoard();
+        Mockito.when(boardRepository.getComputerBoard()).thenReturn(testBoard);
+
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.patch("/board/hit")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(getHitRequestInJSON());
+
+        //Returned board with ocean hit.
+        String testBoardJSON = "{\"name\":\"testBoard\",\"grid\":[[{\"isShip\":false,\"isHit\":true},{\"isShip\":false,\"isHit\":false,},{\"isHit\":false,\"isShip\":false}],[{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}],[{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}]],\"size\":3}";
+
+        this.mockMvc.perform(builder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(testBoardJSON))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    void testHitShipThrowsExceptionIfSpaceHasAlreadyBeenHit() throws Exception{
+        Boardable testBoard = new TestClasses.TestBoard();
+
+        Mockito.when(boardRepository.getComputerBoard()).thenReturn(testBoard);
+        Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(HitRequest.class))).thenReturn(false);
+
+
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.patch("/board/hit")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(getHitRequestInJSON());
+
+        this.mockMvc.perform(builder)
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string(containsString("That is not a valid input!")));
+    }
+
     private String getPlaceRequestInJSON(Ship ship, int row, int col){
         return "{\"ship\": { \"name\":\"" + ship.getName() + "\", \"width\": " + ship.getWidth() + ", \"height\": "+ ship.getHeight() + ", \"isSunk\": "+ ship.getIsSunk() + ", \"shipSections\": [{\"isHit\": false, \"isShip\": true, \"shipName\": \"test\"},{\"isHit\": false, \"isShip\": true, \"shipName\": \"test\"}]}, \"row\": " + row + " , \"col\": " + col + "}";
 
     }
+
+    private String getHitRequestInJSON(){
+        return "";
+    };
 }
 
 
