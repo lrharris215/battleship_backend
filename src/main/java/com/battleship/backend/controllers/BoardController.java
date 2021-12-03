@@ -1,5 +1,6 @@
 package com.battleship.backend.controllers;
 import com.battleship.backend.BoardRepository;
+import com.battleship.backend.exceptions.InvalidShipPlacementException;
 import com.battleship.backend.models.Board;
 import com.battleship.backend.models.Boardable;
 import com.battleship.backend.models.PlaceRequest;
@@ -28,13 +29,14 @@ public class BoardController {
 
     @PatchMapping("/board/place")
     public @ResponseBody
-    Boardable placeShips(@RequestBody PlaceRequest placeRequest){
+    Boardable placeShips(@RequestBody PlaceRequest placeRequest) throws Exception{
         Boardable playerBoard = boardRepository.getPlayerBoard();
         if(placeShipsValidator.isValid(playerBoard, placeRequest.getShip(), placeRequest.getRow(), placeRequest.getCol())){
             playerBoard.addShip(placeRequest.getShip(), placeRequest.getRow(), placeRequest.getCol());
+            return playerBoard;
+        }else {
+            throw new InvalidShipPlacementException();
         }
-
-        return playerBoard;
     }
 
 }

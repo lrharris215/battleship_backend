@@ -69,6 +69,24 @@ class BoardControllerTest {
                 .andDo(MockMvcResultHandlers.print());
     }
 
+    @Test
+    public void testPlaceShipsThrowsExceptionIfInvalid() throws Exception{
+        Mockito.when(boardRepository.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
+        Mockito.when(validator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Ship.class), Mockito.isA(int.class), Mockito.isA(int.class))).thenReturn(false);
+        Ship testShip = new Ship("test", 2);
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.patch("/board/place")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(getPlaceRequestInJSON(testShip, 2, 0));
+
+        this.mockMvc.perform(builder)
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string(containsString("That is not a valid placement!")));
+    }
+
     private String getPlaceRequestInJSON(Ship ship, int row, int col){
         return "{\"ship\": { \"name\":\"" + ship.getName() + "\", \"width\": " + ship.getWidth() + ", \"height\": "+ ship.getHeight() + ", \"isSunk\": "+ ship.getIsSunk() + ", \"shipSections\": [{\"isHit\": false, \"isShip\": true, \"shipName\": \"test\"},{\"isHit\": false, \"isShip\": true, \"shipName\": \"test\"}]}, \"row\": " + row + " , \"col\": " + col + "}";
 

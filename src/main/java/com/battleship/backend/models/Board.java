@@ -7,7 +7,7 @@ public class Board implements Boardable{
 
     public Board(String name){
         this.name = name;
-        int size = 10;
+        size = 10;
         grid = new Sectionable[size][size];
 
         setUp();
