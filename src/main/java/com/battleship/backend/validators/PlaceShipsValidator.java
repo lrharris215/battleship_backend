@@ -3,6 +3,7 @@ package com.battleship.backend.validators;
 
 import com.battleship.backend.models.Boardable;
 import com.battleship.backend.models.PlaceRequest;
+import com.battleship.backend.models.Request;
 import com.battleship.backend.models.Ship;
 
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ public class PlaceShipsValidator implements Validator {
 
     public PlaceShipsValidator(){}
 
-    public boolean isValid(Boardable board, PlaceRequest placeRequest) {
+    public boolean isValid(Boardable board, Request placeRequest) {
         //check row within bounds, check col within bounds
         //check ship does not exceed bounds
         //Check space is not occupied

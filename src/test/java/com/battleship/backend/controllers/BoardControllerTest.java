@@ -3,6 +3,8 @@ package com.battleship.backend.controllers;
 import com.battleship.backend.BoardRepository;
 import com.battleship.backend.TestClasses;
 import com.battleship.backend.models.*;
+import com.battleship.backend.validators.HitRequestValidator;
+import com.battleship.backend.validators.PlaceShipsValidator;
 import com.battleship.backend.validators.Validator;
 import org.junit.jupiter.api.Test;
 
@@ -38,9 +40,9 @@ class BoardControllerTest {
     @MockBean
     private BoardRepository boardRepository;
     @MockBean
-    private Validator placeValidator;
+    private PlaceShipsValidator placeValidator;
     @MockBean
-    private Validator hitValidator;
+    private HitRequestValidator hitValidator;
 
     @Test
     public void getBoardsReturnsBothBoards() throws Exception {
