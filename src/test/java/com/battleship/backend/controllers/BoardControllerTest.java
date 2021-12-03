@@ -51,7 +51,7 @@ class BoardControllerTest {
     @Test
     public void placeShipsPatchesShipOntoPlayerBoard() throws Exception {
         Mockito.when(boardRepository.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
-        Mockito.when(validator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Ship.class), Mockito.isA(int.class), Mockito.isA(int.class))).thenReturn(true);
+        Mockito.when(validator.isValid(Mockito.isA(Boardable.class), Mockito.isA(PlaceRequest.class))).thenReturn(true);
         Ship testShip = new Ship("test", 2);
 
         MockHttpServletRequestBuilder builder =
@@ -72,7 +72,7 @@ class BoardControllerTest {
     @Test
     public void testPlaceShipsThrowsExceptionIfInvalid() throws Exception{
         Mockito.when(boardRepository.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
-        Mockito.when(validator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Ship.class), Mockito.isA(int.class), Mockito.isA(int.class))).thenReturn(false);
+        Mockito.when(validator.isValid(Mockito.isA(Boardable.class), Mockito.isA(PlaceRequest.class))).thenReturn(false);
         Ship testShip = new Ship("test", 2);
 
         MockHttpServletRequestBuilder builder =

@@ -31,7 +31,7 @@ public class BoardController {
     public @ResponseBody
     Boardable placeShips(@RequestBody PlaceRequest placeRequest) throws Exception{
         Boardable playerBoard = boardRepository.getPlayerBoard();
-        if(placeShipsValidator.isValid(playerBoard, placeRequest.getShip(), placeRequest.getRow(), placeRequest.getCol())){
+        if(placeShipsValidator.isValid(playerBoard, placeRequest)){
             playerBoard.addShip(placeRequest.getShip(), placeRequest.getRow(), placeRequest.getCol());
             return playerBoard;
         }else {
