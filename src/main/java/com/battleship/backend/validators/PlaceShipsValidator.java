@@ -31,7 +31,7 @@ public class PlaceShipsValidator implements Validator {
     }
 
     private boolean isPositionValid(Boardable board, int row, int col){
-        if(row < 0 || row > board.getSize()){
+        if(row < 0 || row >= board.getSize()){
             return false;
         }else return col >= 0 && col < board.getSize();
     }
