@@ -10,6 +10,4 @@ public abstract class Request {
 
     public abstract Ship getShip();
 
-    //TODO: Maybe delete???
-
 }
