@@ -60,6 +60,12 @@ class BoardTest {
     }
 
     @Test
+    void testHitSectionChangesTheSectionToHit() {
+        testBoard.hitSection(0,0);
+        assertTrue(testBoard.getSection(0,0).getIsHit());
+    }
+
+    @Test
     void testToString() {
         assertEquals("Name: TestBoard" + ", grid: 10", testBoard.toString());
     }
