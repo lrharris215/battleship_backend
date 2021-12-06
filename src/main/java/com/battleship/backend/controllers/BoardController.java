@@ -1,10 +1,8 @@
 package com.battleship.backend.controllers;
 import com.battleship.backend.BoardRepository;
+import com.battleship.backend.exceptions.InvalidHitException;
 import com.battleship.backend.exceptions.InvalidShipPlacementException;
-import com.battleship.backend.models.Board;
-import com.battleship.backend.models.Boardable;
-import com.battleship.backend.models.PlaceRequest;
-import com.battleship.backend.models.Ship;
+import com.battleship.backend.models.*;
 import com.battleship.backend.validators.HitRequestValidator;
 import com.battleship.backend.validators.PlaceShipsValidator;
 import com.battleship.backend.validators.Validator;
@@ -49,5 +47,17 @@ public class BoardController {
     }
 
     //TODO: Create HIT endpoint
+
+    @PatchMapping("/board/hit")
+    public @ResponseBody
+    Boardable hitShip(@RequestBody HitRequest hitRequest) throws Exception{
+        Boardable computerBoard = boardRepository.getComputerBoard();
+        if(hitRequestValidator.isValid(computerBoard, hitRequest)){
+            computerBoard.hitSection(hitRequest.getRow(), hitRequest.getCol());
+            return computerBoard;
+        }else {
+            throw new InvalidHitException();
+        }
+    }
 
 }
