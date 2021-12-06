@@ -46,8 +46,6 @@ public class BoardController {
         }
     }
 
-    //TODO: Create HIT endpoint
-
     @PatchMapping("/board/hit")
     public @ResponseBody
     Boardable hitShip(@RequestBody HitRequest hitRequest) throws Exception{

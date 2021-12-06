@@ -37,8 +37,6 @@ class BoardControllerTest {
     private MockMvc mockMvc;
     private WebApplicationContext wac;
 
-    //TODO: Figure out why the val beans aren't working
-
     @MockBean
     private BoardRepository boardRepository;
     @MockBean
@@ -99,6 +97,7 @@ class BoardControllerTest {
         Ship testShip = new Ship("test", 2);
         testBoard.addShip(testShip, 0, 0);
         Mockito.when(boardRepository.getComputerBoard()).thenReturn(testBoard);
+        Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(HitRequest.class))).thenReturn(true);
 
 
         MockHttpServletRequestBuilder builder =
@@ -106,7 +105,7 @@ class BoardControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
-                        .content(getHitRequestInJSON());
+                        .content(getHitRequestInJSON(0,0));
 
         //Returned board with ship hit.
         String testBoardJSON = "{\"name\":\"testBoard\",\"grid\":[[{\"isShip\":true,\"isHit\":true,\"shipName\":\"test\"},{\"isShip\":true,\"isHit\":false,\"shipName\":\"test\"},{\"isHit\":false,\"isShip\":false}],[{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}],[{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}]],\"size\":3}";
@@ -121,6 +120,7 @@ class BoardControllerTest {
     void testHitShipUpdatesHitStatusOfOceanOnComputerBoard() throws Exception {
         Boardable testBoard = new TestClasses.TestBoard();
         Mockito.when(boardRepository.getComputerBoard()).thenReturn(testBoard);
+        Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(HitRequest.class))).thenReturn(true);
 
 
         MockHttpServletRequestBuilder builder =
@@ -128,10 +128,10 @@ class BoardControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
-                        .content(getHitRequestInJSON());
+                        .content(getHitRequestInJSON(0,0));
 
         //Returned board with ocean hit.
-        String testBoardJSON = "{\"name\":\"testBoard\",\"grid\":[[{\"isShip\":false,\"isHit\":true},{\"isShip\":false,\"isHit\":false,},{\"isHit\":false,\"isShip\":false}],[{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}],[{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}]],\"size\":3}";
+        String testBoardJSON = "{\"name\":\"testBoard\",\"grid\":[[{\"isHit\":true,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}],[{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}],[{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false},{\"isHit\":false,\"isShip\":false}]],\"size\":3}";
 
         this.mockMvc.perform(builder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -153,11 +153,11 @@ class BoardControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
-                        .content(getHitRequestInJSON());
+                        .content(getHitRequestInJSON(0,0));
 
         this.mockMvc.perform(builder)
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content().string(containsString("That is not a valid input!")));
+                .andExpect(MockMvcResultMatchers.content().string(containsString("That is not a valid target!")));
     }
 
     private String getPlaceRequestInJSON(Ship ship, int row, int col){
@@ -165,8 +165,8 @@ class BoardControllerTest {
 
     }
 
-    private String getHitRequestInJSON(){
-        return "";
+    private String getHitRequestInJSON(int row, int col){
+        return "{\"row\": " + row + ", \"col\": " + col +"}";
     }
 }
 
