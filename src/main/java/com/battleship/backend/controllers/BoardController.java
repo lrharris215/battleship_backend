@@ -5,7 +5,11 @@ import com.battleship.backend.models.Board;
 import com.battleship.backend.models.Boardable;
 import com.battleship.backend.models.PlaceRequest;
 import com.battleship.backend.models.Ship;
+import com.battleship.backend.validators.HitRequestValidator;
+import com.battleship.backend.validators.PlaceShipsValidator;
 import com.battleship.backend.validators.Validator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +17,16 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class BoardController {
     BoardRepository boardRepository;
-    Validator placeShipsValidator;
+    PlaceShipsValidator placeShipsValidator;
+    HitRequestValidator hitRequestValidator;
 
-    public BoardController(BoardRepository boardRepository, Validator placeShipsValidator){
+
+    public BoardController(BoardRepository boardRepository, PlaceShipsValidator placeShipsValidator, HitRequestValidator hitRequestValidator){
         this.boardRepository = boardRepository;
+
         this.placeShipsValidator = placeShipsValidator;
+
+        this.hitRequestValidator = hitRequestValidator;
     }
 
     @GetMapping("/boards")
@@ -38,5 +47,7 @@ public class BoardController {
             throw new InvalidShipPlacementException();
         }
     }
+
+    //TODO: Create HIT endpoint
 
 }

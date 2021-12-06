@@ -37,6 +37,8 @@ class BoardControllerTest {
     private MockMvc mockMvc;
     private WebApplicationContext wac;
 
+    //TODO: Figure out why the val beans aren't working
+
     @MockBean
     private BoardRepository boardRepository;
     @MockBean
@@ -165,7 +167,7 @@ class BoardControllerTest {
 
     private String getHitRequestInJSON(){
         return "";
-    };
+    }
 }
 
 
