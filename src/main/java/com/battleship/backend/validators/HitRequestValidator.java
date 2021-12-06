@@ -8,6 +8,19 @@ import org.springframework.stereotype.Component;
 public class HitRequestValidator implements Validator{
     public HitRequestValidator(){}
     public boolean isValid(Boardable board, Request request) {
-        return false;
+        int row = request.getRow();
+        int col = request.getCol();
+
+        return isPositionValid(board, row, col) && !isPositionAlreadyHit(board, row, col);
+    }
+
+    private boolean isPositionValid(Boardable board, int row, int col){
+        if(row < 0 || row >= board.getSize()){
+            return false;
+        }else return col >= 0 && col < board.getSize();
+    }
+
+    private boolean isPositionAlreadyHit(Boardable board, int row, int col){
+        return board.getSection(row, col).getIsHit();
     }
 }
