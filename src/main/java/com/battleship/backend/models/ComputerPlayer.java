@@ -60,10 +60,25 @@ public class ComputerPlayer {
         return randPlaceRequest;
     }
 
-    public void placeShip(Request placeRequest){}
+    public void placeShip(Request placeRequest){
+        computerBoard.addShip(placeRequest.getShip(), placeRequest.getRow(), placeRequest.getCol());
+        removeShip(placeRequest.getShip());
+    }
+
+    private void removeShip(Ship shipToRemove){
+        Ship[] oldShipList = getShipList();
+        Ship[] newShipList = new Ship[oldShipList.length -  1];
+
+        for(int i = 0, j = 0; i < oldShipList.length; i++){
+            if(oldShipList[i] != shipToRemove){
+                newShipList[j] = oldShipList[i];
+                j++;
+            }
+        }
+        setShipList(newShipList);
+    }
 
     public void fire(Request hitRequest){}
-
 
     //Getters;
 
@@ -85,5 +100,10 @@ public class ComputerPlayer {
 
     public String getName() {
         return name;
+    }
+
+    // Setters
+    private void setShipList(Ship[] newShipList){
+        shipList = newShipList;
     }
 }
