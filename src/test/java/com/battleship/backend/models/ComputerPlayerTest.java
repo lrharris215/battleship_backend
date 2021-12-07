@@ -71,6 +71,12 @@ class ComputerPlayerTest {
         assertFalse(Arrays.stream(computerPlayer.getShipList()).anyMatch(ship -> ship == placedShip));
     }
 
+    @Test
+    void testPlaceAllShipsEmptiesTheShipList(){
+        computerPlayer.placeAllShips();
+        assertEquals(0, computerPlayer.shipList.length);
+    }
+
 // Getter tests
     @Test
     void getBoardRepository() {
