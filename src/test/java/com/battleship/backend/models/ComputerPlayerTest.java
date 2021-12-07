@@ -22,28 +22,29 @@ class ComputerPlayerTest {
     void initBoardRepoShipListAndComputerPlayer(){
       boardRepository  = new BoardRepository();
       shipList  = new Ship[] { new Ship("testShip1", 3), new Ship("testShip2", 2)};
-      computerPlayer = new ComputerPlayer(boardRepository, shipList);
+
       hitRequestValidator = new HitRequestValidator();
       placeShipsValidator = new PlaceShipsValidator();
+        computerPlayer = new ComputerPlayer(boardRepository, shipList, placeShipsValidator, hitRequestValidator);
 
 
     }
 
     @Test
     void testGenerateHitRequestReturnsValidHitRequest(){
-       Request hitRequest = computerPlayer.generateHitRequest();
+       Request hitRequest = computerPlayer.generateValidHitRequest();
        assertTrue(hitRequestValidator.isValid(boardRepository.getPlayerBoard(), hitRequest));
     }
 
     @Test
     void testGeneratePlaceRequestReturnsValidPlaceRequest(){
-        Request placeRequest = computerPlayer.generatePlaceRequest();
+        Request placeRequest = computerPlayer.generateValidPlaceRequest(computerPlayer.getShipList()[0]);
         assertTrue(placeShipsValidator.isValid(boardRepository.getComputerBoard(), placeRequest));
     }
 
     @Test
     void testComputerPlayerUpdatesPlayerBoardWithHitRequest(){
-        Request hitRequest = computerPlayer.generateHitRequest();
+        Request hitRequest = computerPlayer.generateValidHitRequest();
         computerPlayer.fire(hitRequest);
         Boardable playerBoard = boardRepository.getPlayerBoard();
         Sectionable hitSection = playerBoard.getSection(hitRequest.getRow(), hitRequest.getCol());
@@ -52,7 +53,7 @@ class ComputerPlayerTest {
 
     @Test
     void testComputerPlayerUpdatesComputerBoardWithPlaceRequest(){
-        Request placeRequest = computerPlayer.generatePlaceRequest();
+        Request placeRequest = computerPlayer.generateValidPlaceRequest(computerPlayer.getShipList()[0]);
         computerPlayer.placeShip(placeRequest);
         Boardable computerBoard = boardRepository.getComputerBoard();
         Sectionable placeSection = computerBoard.getSection(placeRequest.getRow(), placeRequest.getCol());
@@ -62,10 +63,9 @@ class ComputerPlayerTest {
 
     @Test
     void testPlaceShipRemovesShipFromShipListAfterItHasBeenPlaced(){
-        Request placeRequest = computerPlayer.generatePlaceRequest();
+        Ship placedShip = computerPlayer.getShipList()[0];
+        Request placeRequest = computerPlayer.generateValidPlaceRequest(placedShip);
         computerPlayer.placeShip(placeRequest);
-        Ship placedShip = placeRequest.getShip();
-
 
         //ship list doesn't have the placed ship anymore.
         assertFalse(Arrays.stream(computerPlayer.getShipList()).anyMatch(ship -> ship == placedShip));
