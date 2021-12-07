@@ -21,6 +21,10 @@ public class ComputerPlayer {
 
     public Request generatePlaceRequest(){}
 
+    public void placeShip(Request placeRequest){}
+
+    public void fire(Request hitRequest){}
+
 
     //Getters;
 

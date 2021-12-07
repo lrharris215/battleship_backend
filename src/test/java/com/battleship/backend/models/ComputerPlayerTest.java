@@ -7,6 +7,8 @@ import com.battleship.backend.validators.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ComputerPlayerTest {
@@ -64,8 +66,9 @@ class ComputerPlayerTest {
         computerPlayer.placeShip(placeRequest);
         Ship placedShip = placeRequest.getShip();
 
+
         //ship list doesn't have the placed ship anymore.
-        assertFalse(computerPlayer.getShips().includes(placedShip));
+        assertFalse(Arrays.stream(computerPlayer.getShipList()).anyMatch(ship -> ship == placedShip));
     }
 
 // Getter tests
