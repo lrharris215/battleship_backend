@@ -68,5 +68,29 @@ class ComputerPlayerTest {
         assertFalse(computerPlayer.getShips().includes(placedShip));
     }
 
+// Getter tests
+    @Test
+    void getBoardRepository() {
+        assertEquals(boardRepository, computerPlayer.getBoardRepository());
+    }
 
+    @Test
+    void getShipList() {
+        assertEquals(shipList, computerPlayer.getShipList());
+    }
+
+    @Test
+    void getPlayerBoard() {
+        assertEquals(boardRepository.getPlayerBoard(), computerPlayer.getPlayerBoard());
+    }
+
+    @Test
+    void getComputerBoard() {
+        assertEquals(boardRepository.getComputerBoard(), computerPlayer.getComputerBoard());
+    }
+
+    @Test
+    void getName() {
+        assertEquals("Computer Player", computerPlayer.getName());
+    }
 }

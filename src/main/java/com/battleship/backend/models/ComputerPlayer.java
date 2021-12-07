@@ -16,4 +16,31 @@ public class ComputerPlayer {
         this.computerBoard = boardRepository.getComputerBoard();
         name = "Computer Player";
     }
+
+    public Request generateHitRequest(){}
+
+    public Request generatePlaceRequest(){}
+
+
+    //Getters;
+
+    public BoardRepository getBoardRepository() {
+        return boardRepository;
+    }
+
+    public Ship[] getShipList() {
+        return shipList;
+    }
+
+    public Boardable getPlayerBoard() {
+        return playerBoard;
+    }
+
+    public Boardable getComputerBoard() {
+        return computerBoard;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
