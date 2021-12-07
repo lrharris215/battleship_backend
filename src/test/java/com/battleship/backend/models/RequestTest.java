@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PlaceRequestTest {
-    PlaceRequest testRequest;
+class RequestTest {
+    Request testRequest;
     Ship testShip;
     @BeforeEach
     void initNewPlaceRequest(){
         testShip = new Ship("TestShip", 2);
-        testRequest = new PlaceRequest(testShip, 0, 0);
+        testRequest = new Request(testShip, 0, 0);
     }
     @Test
     void testGetShip() {

@@ -42,6 +42,10 @@ public class Board implements Boardable{
         grid[row][col] = section;
     }
 
+    public void hitSection(int row, int col){
+        getSection(row, col).receiveHit();
+    }
+
     private void setUp() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {

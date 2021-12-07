@@ -36,7 +36,12 @@ public class TestClasses {
             public void addSection(Sectionable section, int row, int col) {
 
             }
-            private void setUpBoard() {
+
+        public void hitSection(int row, int col) {
+            getSection(row, col).receiveHit();
+        }
+
+        private void setUpBoard() {
                 for (int i = 0; i < grid.length; i++) {
                     for (int j = 0; j < grid[i].length; j++) {
                         grid[i][j] = new NullSection();

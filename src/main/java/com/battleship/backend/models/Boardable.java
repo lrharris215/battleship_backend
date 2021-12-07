@@ -9,4 +9,5 @@ public interface Boardable {
 
     void addSection(Sectionable section, int row, int col);
 
+    void hitSection(int row, int col);
 }

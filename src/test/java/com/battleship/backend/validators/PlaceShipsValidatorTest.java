@@ -2,7 +2,7 @@ package com.battleship.backend.validators;
 
 import com.battleship.backend.TestClasses;
 import com.battleship.backend.models.Boardable;
-import com.battleship.backend.models.PlaceRequest;
+import com.battleship.backend.models.Request;
 import com.battleship.backend.models.Ship;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,13 +23,13 @@ class PlaceShipsValidatorTest {
     }
     @Test
     void testIsValidReturnsFalseIfRowIsLargerThanBoardSize() {
-        PlaceRequest badRequest = new PlaceRequest(testShip, 100, 2);
+        Request badRequest = new Request(testShip, 100, 2);
        assertFalse(validator.isValid(testBoard, badRequest));
     }
 
     @Test
     void testIsValidReturnsFalseIfColIsLessThanZero(){
-        PlaceRequest badRequest = new PlaceRequest(testShip, 5, -5);
+        Request badRequest = new Request(testShip, 5, -5);
         assertFalse(validator.isValid(testBoard, badRequest));
     }
 
@@ -38,27 +38,27 @@ class PlaceShipsValidatorTest {
         //Row and Col are within boundaries,
         //the ship won't go over the edge of the board,
         // and all needed spaces are empty
-        PlaceRequest goodRequest = new PlaceRequest(testShip, 0 , 0);
+        Request goodRequest = new Request(testShip, 0 , 0);
         assertTrue(validator.isValid(testBoard, goodRequest));
     }
 
     @Test
     void testIsValidReturnsFalseIfShipWidthWouldGoOverEdgeOfBoard(){
-        PlaceRequest badRequest = new PlaceRequest(testShip, 0, 2);
+        Request badRequest = new Request(testShip, 0, 2);
         assertFalse(validator.isValid(testBoard, badRequest));
     }
 
     @Test
     void testIsValidReturnsFalseIfShipHeightWouldGoOverEdgeOfBoard(){
         testShip.rotate();
-        PlaceRequest badRequest = new PlaceRequest(testShip, 2, 0);
+        Request badRequest = new Request(testShip, 2, 0);
         assertFalse(validator.isValid(testBoard, badRequest));
     }
 
     @Test
     void testIsValidReturnsFalseIfAnySpacesWithinShipAreAlreadyOccupied(){
         testBoard.addShip(testShip, 0 ,0);
-        PlaceRequest badRequest = new PlaceRequest(testShip, 0, 0);
+        Request badRequest = new Request(testShip, 0, 0);
         assertFalse(validator.isValid(testBoard, badRequest));
     }
 }
