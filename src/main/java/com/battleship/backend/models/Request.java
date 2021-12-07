@@ -1,13 +1,27 @@
 package com.battleship.backend.models;
 
-public abstract class Request {
-    public int getRow(){
-        return 0;
-    }
-    public int getCol(){
-        return 0;
+public class Request {
+    Ship ship;
+    int row;
+    int col;
+
+//    public Request(){}
+
+    public Request(Ship ship, int row, int col){
+        this.ship = ship;
+        this.row = row;
+        this.col = col;
     }
 
-    public abstract Ship getShip();
+    public int getRow(){
+        return row;
+    }
+    public int getCol(){
+        return col;
+    }
+
+    public Ship getShip(){
+        return ship;
+    }
 
 }

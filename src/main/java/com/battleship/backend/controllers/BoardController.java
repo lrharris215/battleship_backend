@@ -36,7 +36,7 @@ public class BoardController {
 
     @PatchMapping("/board/place")
     public @ResponseBody
-    Boardable placeShips(@RequestBody PlaceRequest placeRequest) throws Exception{
+    Boardable placeShips(@RequestBody Request placeRequest) throws Exception{
         Boardable playerBoard = boardRepository.getPlayerBoard();
         if(placeShipsValidator.isValid(playerBoard, placeRequest)){
             playerBoard.addShip(placeRequest.getShip(), placeRequest.getRow(), placeRequest.getCol());
@@ -48,7 +48,7 @@ public class BoardController {
 
     @PatchMapping("/board/hit")
     public @ResponseBody
-    Boardable hitShip(@RequestBody HitRequest hitRequest) throws Exception{
+    Boardable hitShip(@RequestBody Request hitRequest) throws Exception{
         Boardable computerBoard = boardRepository.getComputerBoard();
         if(hitRequestValidator.isValid(computerBoard, hitRequest)){
             computerBoard.hitSection(hitRequest.getRow(), hitRequest.getCol());

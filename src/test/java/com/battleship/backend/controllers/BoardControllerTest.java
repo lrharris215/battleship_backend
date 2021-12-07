@@ -55,7 +55,7 @@ class BoardControllerTest {
     @Test
     public void placeShipsPatchesShipOntoPlayerBoard() throws Exception {
         Mockito.when(boardRepository.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
-        Mockito.when(placeValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(PlaceRequest.class))).thenReturn(true);
+        Mockito.when(placeValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
         Ship testShip = new Ship("test", 2);
 
         MockHttpServletRequestBuilder builder =
@@ -76,7 +76,7 @@ class BoardControllerTest {
     @Test
     public void testPlaceShipsThrowsExceptionIfInvalid() throws Exception{
         Mockito.when(boardRepository.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
-        Mockito.when(placeValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(PlaceRequest.class))).thenReturn(false);
+        Mockito.when(placeValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(false);
         Ship testShip = new Ship("test", 2);
 
         MockHttpServletRequestBuilder builder =
@@ -97,7 +97,7 @@ class BoardControllerTest {
         Ship testShip = new Ship("test", 2);
         testBoard.addShip(testShip, 0, 0);
         Mockito.when(boardRepository.getComputerBoard()).thenReturn(testBoard);
-        Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(HitRequest.class))).thenReturn(true);
+        Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
 
 
         MockHttpServletRequestBuilder builder =
@@ -120,7 +120,7 @@ class BoardControllerTest {
     void testHitShipUpdatesHitStatusOfOceanOnComputerBoard() throws Exception {
         Boardable testBoard = new TestClasses.TestBoard();
         Mockito.when(boardRepository.getComputerBoard()).thenReturn(testBoard);
-        Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(HitRequest.class))).thenReturn(true);
+        Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
 
 
         MockHttpServletRequestBuilder builder =
@@ -144,7 +144,7 @@ class BoardControllerTest {
         Boardable testBoard = new TestClasses.TestBoard();
 
         Mockito.when(boardRepository.getComputerBoard()).thenReturn(testBoard);
-        Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(HitRequest.class))).thenReturn(false);
+        Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(false);
 
 
 
