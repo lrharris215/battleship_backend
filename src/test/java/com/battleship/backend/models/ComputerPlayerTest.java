@@ -14,14 +14,19 @@ import static org.junit.jupiter.api.Assertions.*;
 class ComputerPlayerTest {
     BoardRepository boardRepository;
     Ship[] shipList;
+    Ship testShip1;
+    Ship testShip2;
     ComputerPlayer computerPlayer;
     Validator hitRequestValidator;
     Validator placeShipsValidator;
 
+
     @BeforeEach
     void initBoardRepoShipListAndComputerPlayer(){
       boardRepository  = new BoardRepository();
-      shipList  = new Ship[] { new Ship("testShip1", 3), new Ship("testShip2", 2)};
+      testShip1 = new Ship("testShip1", 3);
+      testShip2 = new Ship("testShip2", 2);
+      shipList  = new Ship[] { testShip1, testShip2 };
 
       hitRequestValidator = new HitRequestValidator();
       placeShipsValidator = new PlaceShipsValidator();
@@ -43,38 +48,10 @@ class ComputerPlayerTest {
     }
 
     @Test
-    void testComputerPlayerUpdatesPlayerBoardWithHitRequest(){
-        Request hitRequest = computerPlayer.generateValidHitRequest();
-        computerPlayer.fire(hitRequest);
-        Boardable playerBoard = boardRepository.getPlayerBoard();
-        Sectionable hitSection = playerBoard.getSection(hitRequest.getRow(), hitRequest.getCol());
-        assertTrue(hitSection.getIsHit());
-    }
+    void testRemoveShipRemovesShipFromShipList(){
+        computerPlayer.removeShip(testShip1);
+        assertFalse(Arrays.stream(computerPlayer.getShipList()).anyMatch(ship -> ship == testShip1));
 
-    @Test
-    void testComputerPlayerUpdatesComputerBoardWithPlaceRequest(){
-        Request placeRequest = computerPlayer.generateValidPlaceRequest(computerPlayer.getShipList()[0]);
-        computerPlayer.placeShip(placeRequest);
-        Boardable computerBoard = boardRepository.getComputerBoard();
-        Sectionable placeSection = computerBoard.getSection(placeRequest.getRow(), placeRequest.getCol());
-
-        assertTrue(placeSection.getIsShip());
-    }
-
-    @Test
-    void testPlaceShipRemovesShipFromShipListAfterItHasBeenPlaced(){
-        Ship placedShip = computerPlayer.getShipList()[0];
-        Request placeRequest = computerPlayer.generateValidPlaceRequest(placedShip);
-        computerPlayer.placeShip(placeRequest);
-
-        //ship list doesn't have the placed ship anymore.
-        assertFalse(Arrays.stream(computerPlayer.getShipList()).anyMatch(ship -> ship == placedShip));
-    }
-
-    @Test
-    void testPlaceAllShipsEmptiesTheShipList(){
-        computerPlayer.placeAllShips();
-        assertEquals(0, computerPlayer.shipList.length);
     }
 
 // Getter tests

@@ -59,19 +59,7 @@ public class ComputerPlayer {
         return randPlaceRequest;
     }
 
-    public void placeShip(Request placeRequest){
-        computerBoard.addShip(placeRequest.getShip(), placeRequest.getRow(), placeRequest.getCol());
-        removeShip(placeRequest.getShip());
-    }
-
-    public void placeAllShips(){
-        for(Ship ship : shipList){
-            Request placeRequest = generateValidPlaceRequest(ship);
-            placeShip(placeRequest);
-        }
-    }
-
-    private void removeShip(Ship shipToRemove){
+    public void removeShip(Ship shipToRemove){
         Ship[] oldShipList = getShipList();
         Ship[] newShipList = new Ship[oldShipList.length -  1];
 
@@ -83,11 +71,6 @@ public class ComputerPlayer {
         }
         setShipList(newShipList);
     }
-
-    public void fire(Request hitRequest){
-        playerBoard.hitSection(hitRequest.getRow(), hitRequest.getCol());
-    }
-
     //Getters;
 
     public Ship[] getShipList() {
