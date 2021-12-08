@@ -5,7 +5,6 @@ import com.battleship.backend.TestClasses;
 import com.battleship.backend.models.*;
 import com.battleship.backend.validators.HitRequestValidator;
 import com.battleship.backend.validators.PlaceShipsValidator;
-import com.battleship.backend.validators.Validator;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.Matchers.containsString;
@@ -28,8 +27,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.context.WebApplicationContext;
 
-@WebMvcTest(BoardController.class)
-class BoardControllerTest {
+@WebMvcTest(GameController.class)
+class GameControllerTest {
 
     Board[] boards = new Board[] {new Board("test")};
 

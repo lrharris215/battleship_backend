@@ -5,21 +5,19 @@ import com.battleship.backend.exceptions.InvalidShipPlacementException;
 import com.battleship.backend.models.*;
 import com.battleship.backend.validators.HitRequestValidator;
 import com.battleship.backend.validators.PlaceShipsValidator;
-import com.battleship.backend.validators.Validator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+// TODO: maybe rename to GameController????
 @Controller
-public class BoardController {
+public class GameController {
     BoardRepository boardRepository;
     PlaceShipsValidator placeShipsValidator;
     HitRequestValidator hitRequestValidator;
 
 
-    public BoardController(BoardRepository boardRepository, PlaceShipsValidator placeShipsValidator, HitRequestValidator hitRequestValidator){
+    //TODO: refactor so BC takes in Game as an arg.
+    public GameController(BoardRepository boardRepository, PlaceShipsValidator placeShipsValidator, HitRequestValidator hitRequestValidator){
         this.boardRepository = boardRepository;
 
         this.placeShipsValidator = placeShipsValidator;
@@ -34,6 +32,8 @@ public class BoardController {
         return boardRepository.getBoards();
     }
 
+    // TODO: refactor for Game;
+    // TODO: validate game start???
     @PatchMapping("/board/place")
     public @ResponseBody
     Boardable placeShips(@RequestBody Request placeRequest) throws Exception{
@@ -46,6 +46,9 @@ public class BoardController {
         }
     }
 
+
+    // TODO: refactor for Game;
+    // TODO: validate game start???
     @PatchMapping("/board/hit")
     public @ResponseBody
     Boardable hitShip(@RequestBody Request hitRequest) throws Exception{
