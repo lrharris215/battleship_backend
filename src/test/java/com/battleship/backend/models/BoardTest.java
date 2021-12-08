@@ -38,6 +38,12 @@ class BoardTest {
     }
 
     @Test
+    public void testAddShipAddsTheShipToTheShipList(){
+        testBoard.addShip(testShip, 0,0);
+        assertTrue(testBoard.shipList.contains(testShip));
+    }
+
+    @Test
     void testGetGrid() {
         assertEquals(testBoard.grid, testBoard.getGrid());
     }
@@ -45,6 +51,17 @@ class BoardTest {
     @Test
     void testGetName() {
         assertEquals("TestBoard", testBoard.getName());
+    }
+
+    @Test
+    void testHasShipsReturnsTrueIfShipsOnBoard(){
+        testBoard.addShip(testShip, 0 ,0);
+        assertTrue(testBoard.hasShips());
+    }
+
+    @Test
+    void testHasShipsReturnsFalseIfNoShipsOnBoard(){
+        assertFalse(testBoard.hasShips());
     }
 
     @Test
