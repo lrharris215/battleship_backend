@@ -90,24 +90,8 @@ public class ComputerPlayer {
 
     //Getters;
 
-    public BoardRepository getBoardRepository() {
-        return boardRepository;
-    }
-
     public Ship[] getShipList() {
         return shipList;
-    }
-
-    public Boardable getPlayerBoard() {
-        return playerBoard;
-    }
-
-    public Boardable getComputerBoard() {
-        return computerBoard;
-    }
-
-    public String getName() {
-        return name;
     }
 
     // Setters
