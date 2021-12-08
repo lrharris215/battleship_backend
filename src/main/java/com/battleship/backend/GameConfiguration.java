@@ -10,20 +10,19 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan("com.battleship.backend.controllers")
 public class GameConfiguration {
 
-    @Bean
-    public BoardRepository boardRepository() {
-        return new BoardRepository();
-    }
-
-    @Bean
-    public Validator[] validators(){
-        Validator placeShipsVal = new PlaceShipsValidator();
-        Validator hitRequestVal = new HitRequestValidator();
-        return new Validator[]{ placeShipsVal, hitRequestVal};
-    }
+//    @Bean
+//    public BoardRepository boardRepository() {
+//        return new BoardRepository();
+//    }
+//
+//    @Bean
+//    public Validator[] validators(){
+//        Validator placeShipsVal = new PlaceShipsValidator();
+//        Validator hitRequestVal = new HitRequestValidator();
+//        return new Validator[]{ placeShipsVal, hitRequestVal};
+//    }
 
     @Bean
     public Ship[] shipList(){

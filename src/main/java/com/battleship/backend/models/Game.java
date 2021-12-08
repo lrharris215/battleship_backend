@@ -1,8 +1,6 @@
 package com.battleship.backend.models;
 
 import com.battleship.backend.BoardRepository;
-import com.battleship.backend.validators.HitRequestValidator;
-import com.battleship.backend.validators.PlaceShipsValidator;
 import com.battleship.backend.validators.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

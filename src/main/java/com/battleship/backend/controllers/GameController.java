@@ -5,23 +5,29 @@ import com.battleship.backend.exceptions.InvalidShipPlacementException;
 import com.battleship.backend.models.*;
 import com.battleship.backend.validators.HitRequestValidator;
 import com.battleship.backend.validators.PlaceShipsValidator;
+import com.battleship.backend.validators.Validator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 // TODO: maybe rename to GameController????
-
-
 @Controller
 public class GameController {
     BoardRepository boardRepository;
     PlaceShipsValidator placeShipsValidator;
     HitRequestValidator hitRequestValidator;
+    Ship[] shipList;
     Game game;
 
 
     //TODO: refactor so BC takes in Game as an arg.
-    public GameController(Game game){
-       this.game = game;
+    public GameController(BoardRepository boardRepository, PlaceShipsValidator placeShipsValidator, HitRequestValidator hitRequestValidator){
+        Ship carrier = new Ship("Carrier", 5);
+        Ship battleShip = new Ship("BattleShip", 4);
+        Ship cruiser = new Ship("Cruiser", 3);
+        Ship submarine = new Ship("Submarine", 3);
+        Ship destroyer = new Ship("Destroyer", 2);
+        shipList = new Ship[] { carrier, battleShip, cruiser, submarine, destroyer};
+        game = new Game(boardRepository, new Validator[] { placeShipsValidator, hitRequestValidator}, shipList);
     }
 
     @GetMapping("/boards")
