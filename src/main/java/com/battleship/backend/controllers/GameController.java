@@ -9,20 +9,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 // TODO: maybe rename to GameController????
+
+
 @Controller
 public class GameController {
     BoardRepository boardRepository;
     PlaceShipsValidator placeShipsValidator;
     HitRequestValidator hitRequestValidator;
+    Game game;
 
 
     //TODO: refactor so BC takes in Game as an arg.
-    public GameController(BoardRepository boardRepository, PlaceShipsValidator placeShipsValidator, HitRequestValidator hitRequestValidator){
-        this.boardRepository = boardRepository;
-
-        this.placeShipsValidator = placeShipsValidator;
-
-        this.hitRequestValidator = hitRequestValidator;
+    public GameController(Game game){
+       this.game = game;
     }
 
     @GetMapping("/boards")
@@ -59,6 +58,14 @@ public class GameController {
         }else {
             throw new InvalidHitException();
         }
+    }
+
+    // TODO: fill in endpoint after refactor.
+
+    @PostMapping("/game/start")
+    public @ResponseBody
+    String startGame() throws Exception {
+        return "yay game has started";
     }
 
 }

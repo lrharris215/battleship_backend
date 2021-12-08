@@ -4,7 +4,10 @@ import com.battleship.backend.BoardRepository;
 import com.battleship.backend.validators.HitRequestValidator;
 import com.battleship.backend.validators.PlaceShipsValidator;
 import com.battleship.backend.validators.Validator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Game {
     BoardRepository boardRepository;
     ComputerPlayer computerPlayer;
@@ -13,6 +16,7 @@ public class Game {
     Validator hitRequestValidator;
     boolean isGameStarted;
 
+    @Autowired
     public Game(BoardRepository boardRepository, Validator[] validators, Ship[] shipList){
         this.boardRepository = boardRepository;
         this.shipList = shipList;
