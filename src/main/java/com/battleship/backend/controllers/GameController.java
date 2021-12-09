@@ -67,6 +67,7 @@ public class GameController {
         return "yay game has started";
     }
 
+    // TODO: Fix so that it returns the human player's shiplist.
     @GetMapping("/ships")
     public @ResponseBody
     Ship[] getShipList(){

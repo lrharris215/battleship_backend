@@ -62,6 +62,23 @@ class GameTest {
     }
 
     @Test
+    void testIsPlayerReadyToStartReturnsTrueIfAllShipsAreOnPlayerBoard(){
+        Boardable playerBoard = game.getPlayerBoard();
+        playerBoard.addShip(testShip1, 0 ,0);
+        playerBoard.addShip(testShip2, 1, 0);
+
+        assertTrue(game.isPlayerReadyToStart());
+    }
+
+    @Test
+    void testIsPlayerReadyToStartReturnsFalseIfNotAllShipsAreOnPlayerBoard(){
+        Boardable playerBoard = game.getPlayerBoard();
+        playerBoard.addShip(testShip1, 0 ,0);
+
+        assertFalse(game.isPlayerReadyToStart());
+    }
+
+    @Test
     void getShipList() {
         assertEquals(game.getShipList(), game.shipList);
     }

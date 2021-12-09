@@ -5,6 +5,8 @@ import com.battleship.backend.validators.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 @Component
 public class Game {
     BoardRepository boardRepository;
@@ -26,8 +28,10 @@ public class Game {
 
     public void start(){
         // TODO: need to add validation for playerBoard isSetup???
-        setUpComputerBoard();
-        isGameStarted = true;
+        if(!isGameStarted && isPlayerReadyToStart()){
+            setUpComputerBoard();
+            isGameStarted = true;
+        }
     }
 
     public void placeShip(Boardable board, Request placeRequest){
@@ -38,25 +42,19 @@ public class Game {
         board.hitSection(hitRequest.getRow(), hitRequest.getCol());
     }
 
-    // will move to controller
-    private void setUpShipList(){
-        Ship carrier = new Ship("Carrier", 5);
-        Ship battleShip = new Ship("BattleShip", 4);
-        Ship cruiser = new Ship("Cruiser", 3);
-        Ship submarine = new Ship("Submarine", 3);
-        Ship destroyer = new Ship("Destroyer", 2);
-        shipList = new Ship[] { carrier, battleShip, cruiser, submarine, destroyer};
-    }
-
-    private void setUpComputerBoard(){
+    private void setUpComputerBoard() {
         Boardable computerBoard = boardRepository.getComputerBoard();
-        for(Ship ship : computerPlayer.getShipList()){
+        for (Ship ship : computerPlayer.getShipList()) {
             Request placeRequest = computerPlayer.generateValidPlaceRequest(ship);
             placeShip(computerBoard, placeRequest);
             computerPlayer.removeShip(ship);
         }
-
     }
+
+    public boolean isPlayerReadyToStart(){
+        return getPlayerBoard().getShipList().equals(Arrays.stream(shipList).toList());
+    }
+
 
     //Getters
 
