@@ -1,6 +1,7 @@
 package com.battleship.backend.models;
 
 import com.battleship.backend.BoardRepository;
+import com.battleship.backend.exceptions.GameNotReadyToStartException;
 import com.battleship.backend.validators.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,8 +28,7 @@ public class Game {
     }
 
     public void start(){
-        // TODO: need to add validation for playerBoard isSetup???
-        if(!isGameStarted && isPlayerReadyToStart()){
+        if(!isGameStarted){
             setUpComputerBoard();
             isGameStarted = true;
         }
@@ -63,17 +63,14 @@ public class Game {
     }
 
     public Boardable getComputerBoard(){
-        System.out.println("Attempting to actually get real boards here");
         return boardRepository.getComputerBoard();
     }
 
     public Boardable getPlayerBoard(){
-        System.out.println("Attempting to actually get real boards here");
         return boardRepository.getPlayerBoard();
     }
 
     public Boardable[] getBoards(){
-        System.out.println("Attempting to actually get real boards here");
         return boardRepository.getBoards();
     }
 

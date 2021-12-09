@@ -1,5 +1,6 @@
 package com.battleship.backend.controllers;
 import com.battleship.backend.BoardRepository;
+import com.battleship.backend.exceptions.GameNotReadyToStartException;
 import com.battleship.backend.exceptions.InvalidHitException;
 import com.battleship.backend.exceptions.InvalidShipPlacementException;
 import com.battleship.backend.models.*;
@@ -64,7 +65,12 @@ public class GameController {
     @PostMapping("/game/start")
     public @ResponseBody
     String startGame() throws Exception {
-        return "yay game has started";
+        if(game.isPlayerReadyToStart()){
+            game.start();
+            return "Yay game has started";
+        }else{
+            throw new GameNotReadyToStartException();
+        }
     }
 
     // TODO: Fix so that it returns the human player's shiplist.
