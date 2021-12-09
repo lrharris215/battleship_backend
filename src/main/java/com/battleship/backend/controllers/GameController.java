@@ -1,5 +1,6 @@
 package com.battleship.backend.controllers;
 import com.battleship.backend.BoardRepository;
+import com.battleship.backend.exceptions.GameHasAlreadyStartedException;
 import com.battleship.backend.exceptions.GameNotReadyToStartException;
 import com.battleship.backend.exceptions.InvalidHitException;
 import com.battleship.backend.exceptions.InvalidShipPlacementException;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-// TODO: maybe rename to GameController????
 @Controller
 public class GameController {
     Validator placeShipsValidator;
@@ -21,7 +21,6 @@ public class GameController {
     Game game;
 
 
-    //TODO: refactor so BC takes in Game as an arg.
     public GameController(Game game){
         this.game = game;
         this.placeShipsValidator = game.getPlaceShipsValidator();
@@ -35,13 +34,14 @@ public class GameController {
         return game.getBoards();
     }
 
-    // TODO: refactor for Game;
     // TODO: validate game start???
     @PatchMapping("/board/place")
     public @ResponseBody
     Boardable placeShips(@RequestBody Request placeRequest) throws Exception{
         Boardable playerBoard = game.getPlayerBoard();
-        if(placeShipsValidator.isValid(playerBoard, placeRequest)){
+        if(game.getIsGameStarted()){
+            throw new GameHasAlreadyStartedException();
+        }else if(placeShipsValidator.isValid(playerBoard, placeRequest)){
             game.placeShip(playerBoard, placeRequest);
             game.removePlayerShip(placeRequest.getShip());
             return playerBoard;
@@ -50,9 +50,6 @@ public class GameController {
         }
     }
 
-
-    // TODO: refactor for Game;
-    // TODO: validate game start???
     @PatchMapping("/board/hit")
     public @ResponseBody
     Boardable hitShip(@RequestBody Request hitRequest) throws Exception{
@@ -67,8 +64,6 @@ public class GameController {
         }
     }
 
-    // TODO: fill in endpoint after refactor.
-
     @PostMapping("/game/start")
     public @ResponseBody
     String startGame() throws Exception {
@@ -80,11 +75,10 @@ public class GameController {
         }
     }
 
-    // TODO: Fix so that it returns the human player's shiplist.
     @GetMapping("/ships")
     public @ResponseBody
     ArrayList<Ship> getShipList(){
-        return game.getShipList();
+        return game.getPlayerShipList();
     }
 
 }

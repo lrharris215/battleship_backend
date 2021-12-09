@@ -69,6 +69,10 @@ public class Game {
         return shipList;
     }
 
+    public ArrayList<Ship> getPlayerShipList(){
+        return playerShipList;
+    }
+
     public Boardable getComputerBoard(){
         return boardRepository.getComputerBoard();
     }

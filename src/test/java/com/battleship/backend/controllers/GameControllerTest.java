@@ -60,6 +60,7 @@ class GameControllerTest {
     public void placeShipsPatchesShipOntoPlayerBoard() throws Exception {
         Mockito.when(game.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
         Mockito.when(placeValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
+        Mockito.when(game.getIsGameStarted()).thenReturn(false);
         Ship testShip = new Ship("test", 2);
 
         MockHttpServletRequestBuilder builder =
@@ -81,6 +82,7 @@ class GameControllerTest {
     public void testPlaceShipsThrowsExceptionIfInvalid() throws Exception{
         Mockito.when(game.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
         Mockito.when(placeValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(false);
+        Mockito.when(game.getIsGameStarted()).thenReturn(false);
         Ship testShip = new Ship("test", 2);
 
         MockHttpServletRequestBuilder builder =
@@ -93,6 +95,24 @@ class GameControllerTest {
         this.mockMvc.perform(builder)
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.content().string(containsString("That is not a valid placement!")));
+    }
+
+    @Test
+    void testPlaceShipsThrowsExceptionIfGameHasAlreadyStarted() throws Exception{
+        Mockito.when(game.getIsGameStarted()).thenReturn(true);
+
+        Ship testShip = new Ship("test", 2);
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.patch("/board/place")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(getPlaceRequestInJSON(testShip, 2, 0));
+
+        this.mockMvc.perform(builder)
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string(containsString("The game has already started!")));
     }
 
     @Test
