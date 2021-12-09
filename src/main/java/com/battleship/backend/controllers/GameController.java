@@ -27,14 +27,17 @@ public class GameController {
         Ship submarine = new Ship("Submarine", 3);
         Ship destroyer = new Ship("Destroyer", 2);
         shipList = new Ship[] { carrier, battleShip, cruiser, submarine, destroyer};
+
         game = new Game(boardRepository, new Validator[] { placeShipsValidator, hitRequestValidator}, shipList);
+
+        this.placeShipsValidator = placeShipsValidator;
+        this.hitRequestValidator = hitRequestValidator;
     }
 
     @GetMapping("/boards")
     public @ResponseBody
     Boardable[] getBoards() {
-
-        return boardRepository.getBoards();
+        return game.getBoards();
     }
 
     // TODO: refactor for Game;
@@ -42,9 +45,9 @@ public class GameController {
     @PatchMapping("/board/place")
     public @ResponseBody
     Boardable placeShips(@RequestBody Request placeRequest) throws Exception{
-        Boardable playerBoard = boardRepository.getPlayerBoard();
+        Boardable playerBoard = game.getPlayerBoard();
         if(placeShipsValidator.isValid(playerBoard, placeRequest)){
-            playerBoard.addShip(placeRequest.getShip(), placeRequest.getRow(), placeRequest.getCol());
+            game.placeShip(playerBoard, placeRequest);
             return playerBoard;
         }else {
             throw new InvalidShipPlacementException();
@@ -57,9 +60,9 @@ public class GameController {
     @PatchMapping("/board/hit")
     public @ResponseBody
     Boardable hitShip(@RequestBody Request hitRequest) throws Exception{
-        Boardable computerBoard = boardRepository.getComputerBoard();
+        Boardable computerBoard = game.getComputerBoard();
         if(hitRequestValidator.isValid(computerBoard, hitRequest)){
-            computerBoard.hitSection(hitRequest.getRow(), hitRequest.getCol());
+            game.fire(computerBoard, hitRequest);
             return computerBoard;
         }else {
             throw new InvalidHitException();

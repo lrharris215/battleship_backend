@@ -14,7 +14,6 @@ public class Game {
     Validator hitRequestValidator;
     boolean isGameStarted;
 
-    @Autowired
     public Game(BoardRepository boardRepository, Validator[] validators, Ship[] shipList){
         this.boardRepository = boardRepository;
         this.shipList = shipList;
@@ -26,6 +25,7 @@ public class Game {
     }
 
     public void start(){
+        // TODO: need to add validation for playerBoard isSetup???
         setUpComputerBoard();
         isGameStarted = true;
     }
@@ -65,11 +65,18 @@ public class Game {
     }
 
     public Boardable getComputerBoard(){
+        System.out.println("Attempting to actually get real boards here");
         return boardRepository.getComputerBoard();
     }
 
     public Boardable getPlayerBoard(){
-       return boardRepository.getPlayerBoard();
+        System.out.println("Attempting to actually get real boards here");
+        return boardRepository.getPlayerBoard();
+    }
+
+    public Boardable[] getBoards(){
+        System.out.println("Attempting to actually get real boards here");
+        return boardRepository.getBoards();
     }
 
     public boolean getIsGameStarted(){

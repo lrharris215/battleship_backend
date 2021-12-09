@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -43,9 +44,13 @@ class GameControllerTest {
     @MockBean
     private HitRequestValidator hitValidator;
 
+    @SpyBean
+    private Game game;
+
     @Test
     public void getBoardsReturnsBothBoards() throws Exception {
-        Mockito.when(boardRepository.getBoards()).thenReturn(boards);
+
+        Mockito.when(game.getBoards()).thenReturn(boards);
 
         this.mockMvc.perform(get("/boards")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("test")));
     }
@@ -53,7 +58,7 @@ class GameControllerTest {
 
     @Test
     public void placeShipsPatchesShipOntoPlayerBoard() throws Exception {
-        Mockito.when(boardRepository.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
+        Mockito.when(game.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
         Mockito.when(placeValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
         Ship testShip = new Ship("test", 2);
 
@@ -74,7 +79,7 @@ class GameControllerTest {
 
     @Test
     public void testPlaceShipsThrowsExceptionIfInvalid() throws Exception{
-        Mockito.when(boardRepository.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
+        Mockito.when(game.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
         Mockito.when(placeValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(false);
         Ship testShip = new Ship("test", 2);
 
@@ -95,7 +100,7 @@ class GameControllerTest {
         Boardable testBoard = new TestClasses.TestBoard();
         Ship testShip = new Ship("test", 2);
         testBoard.addShip(testShip, 0, 0);
-        Mockito.when(boardRepository.getComputerBoard()).thenReturn(testBoard);
+        Mockito.when(game.getComputerBoard()).thenReturn(testBoard);
         Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
 
 
