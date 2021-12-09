@@ -83,4 +83,12 @@ public class Game {
         return isGameStarted;
     }
 
+    public Validator getPlaceShipsValidator(){
+        return placeShipsValidator;
+    }
+
+    public Validator getHitRequestValidator(){
+        return hitRequestValidator;
+    }
+
 }

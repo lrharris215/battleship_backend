@@ -12,26 +12,16 @@ import org.springframework.web.bind.annotation.*;
 // TODO: maybe rename to GameController????
 @Controller
 public class GameController {
-    BoardRepository boardRepository;
-    PlaceShipsValidator placeShipsValidator;
-    HitRequestValidator hitRequestValidator;
-    Ship[] shipList;
+    Validator placeShipsValidator;
+    Validator hitRequestValidator;
     Game game;
 
 
     //TODO: refactor so BC takes in Game as an arg.
-    public GameController(BoardRepository boardRepository, PlaceShipsValidator placeShipsValidator, HitRequestValidator hitRequestValidator){
-        Ship carrier = new Ship("Carrier", 5);
-        Ship battleShip = new Ship("BattleShip", 4);
-        Ship cruiser = new Ship("Cruiser", 3);
-        Ship submarine = new Ship("Submarine", 3);
-        Ship destroyer = new Ship("Destroyer", 2);
-        shipList = new Ship[] { carrier, battleShip, cruiser, submarine, destroyer};
-
-        game = new Game(boardRepository, new Validator[] { placeShipsValidator, hitRequestValidator}, shipList);
-
-        this.placeShipsValidator = placeShipsValidator;
-        this.hitRequestValidator = hitRequestValidator;
+    public GameController(Game game){
+        this.game = game;
+        this.placeShipsValidator = game.getPlaceShipsValidator();
+        this.hitRequestValidator = game.getHitRequestValidator();
     }
 
     @GetMapping("/boards")
@@ -75,6 +65,12 @@ public class GameController {
     public @ResponseBody
     String startGame() throws Exception {
         return "yay game has started";
+    }
+
+    @GetMapping("/ships")
+    public @ResponseBody
+    Ship[] getShipList(){
+        return game.getShipList();
     }
 
 }
