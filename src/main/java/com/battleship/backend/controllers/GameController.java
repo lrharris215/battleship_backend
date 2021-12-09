@@ -57,7 +57,9 @@ public class GameController {
     public @ResponseBody
     Boardable hitShip(@RequestBody Request hitRequest) throws Exception{
         Boardable computerBoard = game.getComputerBoard();
-        if(hitRequestValidator.isValid(computerBoard, hitRequest)){
+        if(!game.getIsGameStarted()){
+            throw new GameNotReadyToStartException();
+        }else if(hitRequestValidator.isValid(computerBoard, hitRequest)){
             game.fire(computerBoard, hitRequest);
             return computerBoard;
         }else {

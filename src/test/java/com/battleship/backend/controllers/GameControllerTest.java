@@ -100,8 +100,10 @@ class GameControllerTest {
         Boardable testBoard = new TestClasses.TestBoard();
         Ship testShip = new Ship("test", 2);
         testBoard.addShip(testShip, 0, 0);
+
         Mockito.when(game.getComputerBoard()).thenReturn(testBoard);
         Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
+        Mockito.when(game.getIsGameStarted()).thenReturn(true);
 
 
         MockHttpServletRequestBuilder builder =
@@ -125,6 +127,7 @@ class GameControllerTest {
         Boardable testBoard = new TestClasses.TestBoard();
         Mockito.when(boardRepository.getComputerBoard()).thenReturn(testBoard);
         Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
+        Mockito.when(game.getIsGameStarted()).thenReturn(true);
 
 
         MockHttpServletRequestBuilder builder =
@@ -149,6 +152,7 @@ class GameControllerTest {
 
         Mockito.when(boardRepository.getComputerBoard()).thenReturn(testBoard);
         Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(false);
+        Mockito.when(game.getIsGameStarted()).thenReturn(true);
 
 
 
@@ -162,6 +166,53 @@ class GameControllerTest {
         this.mockMvc.perform(builder)
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.content().string(containsString("That is not a valid target!")));
+    }
+
+    @Test
+    void testHitShipThrowsExceptionIfGameHasNotStartedYet() throws Exception {
+        Mockito.when(game.getIsGameStarted()).thenReturn(false);
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.patch("/board/hit")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(getHitRequestInJSON(0,0));
+
+        this.mockMvc.perform(builder)
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string(containsString("The game cannot be started:")));
+    }
+
+    @Test
+    void testStartGameStartsTheGameIfGameIsReadyToStart() throws Exception{
+        Mockito.doReturn(true).when(game).isPlayerReadyToStart();
+        Mockito.doNothing().when(game).start();
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.post("/game/start")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8");
+
+
+        this.mockMvc.perform(builder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(containsString("Yay game has started")));
+    }
+
+    @Test
+    void testStartGameThrowsExceptionIfGameIsNotReadyToStart() throws Exception{
+        Mockito.doReturn(false).when(game).isPlayerReadyToStart();
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.post("/game/start")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8");
+
+
+        this.mockMvc.perform(builder)
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string(containsString("The game cannot be started:")));
     }
 
     private String getPlaceRequestInJSON(Ship ship, int row, int col){

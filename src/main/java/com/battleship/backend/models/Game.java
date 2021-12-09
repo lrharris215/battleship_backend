@@ -45,6 +45,14 @@ public class Game {
         board.hitSection(hitRequest.getRow(), hitRequest.getCol());
     }
 
+    public boolean isPlayerReadyToStart(){
+        return getPlayerBoard().getShipList().equals(shipList) && playerShipList.isEmpty();
+    }
+
+    public void removePlayerShip(Ship ship){
+        playerShipList.remove(ship);
+    }
+
     private void setUpComputerBoard() {
         Boardable computerBoard = boardRepository.getComputerBoard();
         for (Ship ship : computerPlayer.getShipList()) {
@@ -52,14 +60,6 @@ public class Game {
             placeShip(computerBoard, placeRequest);
             computerPlayer.removeShip(ship);
         }
-    }
-
-    public boolean isPlayerReadyToStart(){
-        return getPlayerBoard().getShipList().equals(shipList) && playerShipList.isEmpty();
-    }
-
-    public void removePlayerShip(Ship ship){
-        playerShipList.remove(ship);
     }
 
 
