@@ -6,25 +6,28 @@ import com.battleship.backend.validators.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class Game {
     BoardRepository boardRepository;
     ComputerPlayer computerPlayer;
-    Ship[] shipList;
+   final ArrayList<Ship> shipList;
     Validator placeShipsValidator;
     Validator hitRequestValidator;
     boolean isGameStarted;
+    ArrayList<Ship> playerShipList;
 
     public Game(BoardRepository boardRepository, Validator[] validators, Ship[] shipList){
         this.boardRepository = boardRepository;
-        this.shipList = shipList;
-//        setUpShipList();
+        this.shipList = new ArrayList<Ship>(Arrays.stream(shipList).toList());
         placeShipsValidator = validators[0];
         hitRequestValidator = validators[1];
         computerPlayer = new ComputerPlayer(boardRepository, shipList, placeShipsValidator, hitRequestValidator);
         isGameStarted = false;
+        playerShipList = new ArrayList<Ship>(Arrays.stream(shipList).toList());
     }
 
     public void start(){
@@ -36,6 +39,7 @@ public class Game {
 
     public void placeShip(Boardable board, Request placeRequest){
         board.addShip(placeRequest.getShip(), placeRequest.getRow(), placeRequest.getCol());
+        playerShipList.remove(placeRequest.getShip());
     }
 
     public void fire(Boardable board, Request hitRequest){
@@ -52,13 +56,13 @@ public class Game {
     }
 
     public boolean isPlayerReadyToStart(){
-        return getPlayerBoard().getShipList().equals(Arrays.stream(shipList).toList());
+        return getPlayerBoard().getShipList().equals(shipList) && playerShipList.isEmpty();
     }
 
 
     //Getters
 
-    public Ship[] getShipList(){
+    public ArrayList<Ship> getShipList(){
         return shipList;
     }
 

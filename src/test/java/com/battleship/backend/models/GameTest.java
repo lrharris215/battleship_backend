@@ -64,8 +64,10 @@ class GameTest {
     @Test
     void testIsPlayerReadyToStartReturnsTrueIfAllShipsAreOnPlayerBoard(){
         Boardable playerBoard = game.getPlayerBoard();
-        playerBoard.addShip(testShip1, 0 ,0);
-        playerBoard.addShip(testShip2, 1, 0);
+        Request placeRequest1 = new Request(testShip1, 0,0);
+        Request placeRequest2 = new Request(testShip2, 1, 0);
+        game.placeShip(playerBoard, placeRequest1);
+        game.placeShip(playerBoard, placeRequest2);
 
         assertTrue(game.isPlayerReadyToStart());
     }
@@ -73,7 +75,8 @@ class GameTest {
     @Test
     void testIsPlayerReadyToStartReturnsFalseIfNotAllShipsAreOnPlayerBoard(){
         Boardable playerBoard = game.getPlayerBoard();
-        playerBoard.addShip(testShip1, 0 ,0);
+        Request placeRequest1 = new Request(testShip1, 0,0);
+        game.placeShip(playerBoard, placeRequest1);
 
         assertFalse(game.isPlayerReadyToStart());
     }

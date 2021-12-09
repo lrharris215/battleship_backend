@@ -10,6 +10,9 @@ import com.battleship.backend.validators.Validator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 // TODO: maybe rename to GameController????
 @Controller
 public class GameController {
@@ -23,6 +26,7 @@ public class GameController {
         this.game = game;
         this.placeShipsValidator = game.getPlaceShipsValidator();
         this.hitRequestValidator = game.getHitRequestValidator();
+
     }
 
     @GetMapping("/boards")
@@ -76,7 +80,7 @@ public class GameController {
     // TODO: Fix so that it returns the human player's shiplist.
     @GetMapping("/ships")
     public @ResponseBody
-    Ship[] getShipList(){
+    ArrayList<Ship> getShipList(){
         return game.getShipList();
     }
 
