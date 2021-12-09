@@ -43,6 +43,7 @@ public class GameController {
         Boardable playerBoard = game.getPlayerBoard();
         if(placeShipsValidator.isValid(playerBoard, placeRequest)){
             game.placeShip(playerBoard, placeRequest);
+            game.removePlayerShip(placeRequest.getShip());
             return playerBoard;
         }else {
             throw new InvalidShipPlacementException();

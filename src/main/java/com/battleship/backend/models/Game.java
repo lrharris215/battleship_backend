@@ -39,7 +39,6 @@ public class Game {
 
     public void placeShip(Boardable board, Request placeRequest){
         board.addShip(placeRequest.getShip(), placeRequest.getRow(), placeRequest.getCol());
-        playerShipList.remove(placeRequest.getShip());
     }
 
     public void fire(Boardable board, Request hitRequest){
@@ -57,6 +56,10 @@ public class Game {
 
     public boolean isPlayerReadyToStart(){
         return getPlayerBoard().getShipList().equals(shipList) && playerShipList.isEmpty();
+    }
+
+    public void removePlayerShip(Ship ship){
+        playerShipList.remove(ship);
     }
 
 

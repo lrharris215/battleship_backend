@@ -68,6 +68,9 @@ class GameTest {
         Request placeRequest2 = new Request(testShip2, 1, 0);
         game.placeShip(playerBoard, placeRequest1);
         game.placeShip(playerBoard, placeRequest2);
+        //I remove these in the controller
+        game.removePlayerShip(placeRequest1.getShip());
+        game.removePlayerShip(placeRequest2.getShip());
 
         assertTrue(game.isPlayerReadyToStart());
     }
@@ -80,6 +83,21 @@ class GameTest {
 
         assertFalse(game.isPlayerReadyToStart());
     }
+
+    @Test
+    void testRemovePlayerShipRemovesShipFromPlayerShipList(){
+        game.removePlayerShip(testShip1);
+
+        assertFalse(game.playerShipList.contains(testShip1));
+    }
+
+    @Test
+    void testRemovePlayerShipDoesNotRemoveShipFromGameShipList(){
+        game.removePlayerShip(testShip1);
+
+        assertTrue(game.shipList.contains(testShip1));
+    }
+
 
     @Test
     void getShipList() {
