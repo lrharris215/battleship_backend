@@ -34,7 +34,6 @@ public class GameController {
         return game.getBoards();
     }
 
-    // TODO: add functionality for replacing an already placed ship. (check if it already exists, remove then replace w/ new coords);
     @PatchMapping("/board/place")
     public @ResponseBody
     Boardable placeShips(@RequestBody Request placeRequest) throws Exception{
@@ -42,6 +41,9 @@ public class GameController {
         if(game.getIsGameStarted()){
             throw new GameHasAlreadyStartedException();
         }else if(placeShipsValidator.isValid(playerBoard, placeRequest)){
+            if(playerBoard.hasShip(placeRequest.getShip())){
+                playerBoard.removeShip(placeRequest.getShip());
+            }
             game.placeShip(playerBoard, placeRequest);
             game.removePlayerShip(placeRequest.getShip());
             return playerBoard;
@@ -49,8 +51,6 @@ public class GameController {
             throw new InvalidShipPlacementException();
         }
     }
-
-    // TODO: Figure out how players will take turns. Maybe will have to change what is returned here?
 
     @PatchMapping("/board/hit")
     public @ResponseBody

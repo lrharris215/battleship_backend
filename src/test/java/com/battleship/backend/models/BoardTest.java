@@ -72,6 +72,12 @@ class BoardTest {
         assertFalse(testBoard.shipList.contains(testShip));
     }
 
+    @Test
+    void testHasShip(){
+        testBoard.addShip(testShip, 0 ,0);
+        assertTrue(testBoard.hasShip(testShip));
+    }
+
    private boolean isShipOnBoard(Boardable board, Ship ship){
         for(int i = 0; i < board.getGrid().length; i++){
             for(int j = 0; j < board.getGrid()[i].length; j++){
@@ -83,6 +89,7 @@ class BoardTest {
         }
         return false;
     }
+
 
     // Getter tests
 

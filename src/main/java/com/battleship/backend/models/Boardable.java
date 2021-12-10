@@ -18,4 +18,6 @@ public interface Boardable {
     boolean hasShips();
 
     ArrayList<Ship> getShipList();
+
+    boolean hasShip(Ship ship);
 }

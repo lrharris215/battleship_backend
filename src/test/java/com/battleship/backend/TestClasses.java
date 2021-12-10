@@ -34,14 +34,29 @@ public class TestClasses {
             public int getSize(){ return 3; }
 
             public void addShip(Ship ship, int row, int col) {
-                grid[0][0] = ship.getShipSection(0);
-                grid[0][1] = ship.getShipSection(1);
+                grid[row][col] = ship.getShipSection(0);
+                grid[row][col + 1] = ship.getShipSection(1);
 
                 shipList.add(ship);
             }
 
             public void removeShip(Ship ship) {
-                
+                Ship shipToRemove = null;
+                for(Ship boardShip : shipList ){
+                    if(boardShip.equals(ship)){
+                        shipToRemove = boardShip;
+                        for(int i = 0; i < grid.length; i++){
+                            for(int j = 0; j < grid[i].length; j++){
+                                Sectionable section = grid[i][j];
+                                if(section.getIsShip() && section.getShipName().equals(ship.getName())){
+                                    grid[i][j] =  new NullSection();
+                                }
+                            }
+                        }
+
+                    }
+                }
+                shipList.remove(shipToRemove);
             }
 
         public boolean hasShips(){
@@ -50,6 +65,15 @@ public class TestClasses {
 
         public ArrayList<Ship> getShipList() {
             return shipList;
+        }
+
+        public boolean hasShip(Ship maybeShip) {
+            for(Ship ship : shipList){
+                if(ship.equals(maybeShip)){
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void addSection(Sectionable section, int row, int col) {

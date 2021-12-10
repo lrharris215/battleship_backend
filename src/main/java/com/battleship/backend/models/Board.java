@@ -27,17 +27,22 @@ public class Board implements Boardable{
     }
 
     public void removeShip(Ship ship){
-        if(shipList.contains(ship)){
-            for(int i = 0; i < grid.length; i++){
-                for(int j = 0; j < grid[i].length; j++){
-                    Sectionable section = grid[i][j];
-                    if(section.getIsShip() && section.getShipName().equals(ship.getName())){
-                        grid[i][j] =  new NullSection();
+        Ship shipToRemove = null;
+        for(Ship boardShip : shipList ){
+            if(boardShip.equals(ship)){
+                shipToRemove = boardShip;
+                for(int i = 0; i < grid.length; i++){
+                    for(int j = 0; j < grid[i].length; j++){
+                        Sectionable section = grid[i][j];
+                        if(section.getIsShip() && section.getShipName().equals(ship.getName())){
+                            grid[i][j] =  new NullSection();
+                        }
                     }
                 }
+
             }
-            shipList.remove(ship);
         }
+        shipList.remove(shipToRemove);
     }
 
     public void addSection(Sectionable section, int row, int col){
@@ -50,6 +55,15 @@ public class Board implements Boardable{
 
     public boolean hasShips(){
         return shipList.size() > 0;
+    }
+
+    public boolean hasShip(Ship maybeShip){
+        for(Ship ship : shipList){
+            if(ship.equals(maybeShip)){
+                return true;
+            }
+        }
+        return false;
     }
 
     // Getters

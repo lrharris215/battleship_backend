@@ -45,6 +45,23 @@ class ShipTest {
     }
 
     @Test
+    void testEqualsReturnsTrueIfShipsHaveSameName(){
+        Ship ship1 = new Ship("Test", 3);
+        Ship ship2 = new Ship("Test", 3);
+
+        assertTrue(ship1.equals(ship2));
+    }
+
+    @Test
+    void testEqualsReturnsFalseIfShipsHaveDifferentNames(){
+        Ship ship1 = new Ship("Test", 3);
+        Ship ship2 = new Ship("Test2", 3);
+
+        assertFalse(ship1.equals(ship2));
+    }
+
+// Getters
+    @Test
     void testGetName() {
         assertEquals("Test", testShip.getName());
     }

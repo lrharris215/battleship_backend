@@ -116,6 +116,34 @@ class GameControllerTest {
     }
 
     @Test
+    void testPlaceShipsRemovesShipFromOldSpotIfItsAlreadyOnBoard() throws Exception{
+        Boardable testBoard = new TestClasses.TestBoard();
+        Ship testShip = new Ship("test", 2);
+        testBoard.addShip(testShip, 2, 0);
+
+        Mockito.when(game.getIsGameStarted()).thenReturn(false);
+        Mockito.when(game.getPlayerBoard()).thenReturn(testBoard);
+        Mockito.when(placeValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
+
+
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.patch("/board/place")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(getPlaceRequestInJSON(testShip, 0, 0));
+
+        String testBoardJSON = "{\"name\":\"testBoard\",\"grid\":[[{\"isShip\":true,\"isHit\":false,\"shipName\":\"test\"},{\"isShip\":true,\"isHit\":false,\"shipName\":\"test\"},{\"isHit\":false,\"isShip\":false,\"shipName\":null}],[{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}],[{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}]],\"shipList\":[{\"width\":2,\"height\":1,\"name\":\"test\",\"isSunk\":false,\"shipSections\":[{\"isShip\":true,\"isHit\":false,\"shipName\":\"test\"},{\"isShip\":true,\"isHit\":false,\"shipName\":\"test\"}]}],\"size\":3}";
+
+        this.mockMvc.perform(builder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(testBoardJSON))
+                .andDo(MockMvcResultHandlers.print());
+
+    }
+
+    @Test
     void testHitShipUpdatesShipStatusOnComputerBoard() throws Exception {
         Boardable testBoard = new TestClasses.TestBoard();
         Ship testShip = new Ship("test", 2);
