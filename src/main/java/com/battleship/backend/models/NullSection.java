@@ -19,4 +19,6 @@ public class NullSection implements Sectionable {
     public boolean getIsShip(){
         return isShip;
     }
+
+    public String getShipName(){return null;}
 }

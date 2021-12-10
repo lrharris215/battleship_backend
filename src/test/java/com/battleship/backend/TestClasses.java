@@ -40,7 +40,11 @@ public class TestClasses {
                 shipList.add(ship);
             }
 
-            public boolean hasShips(){
+            public void removeShip(Ship ship) {
+                
+            }
+
+        public boolean hasShips(){
                 return true;
             }
 

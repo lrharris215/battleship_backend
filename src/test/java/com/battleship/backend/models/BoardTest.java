@@ -44,6 +44,49 @@ class BoardTest {
     }
 
     @Test
+    void testAddSection() {
+        Sectionable testShipSection = new ShipSection("test");
+        testBoard.addSection(testShipSection, 0, 0);
+        assertEquals(testShipSection, testBoard.getSection(0,0));
+    }
+
+    @Test
+    void testHitSectionChangesTheSectionToHit() {
+        testBoard.hitSection(0,0);
+        assertTrue(testBoard.getSection(0,0).getIsHit());
+    }
+
+    @Test
+    void testRemoveShipRemovesShipFromBoard(){
+        testBoard.addShip(testShip, 0, 0);
+        testBoard.removeShip(testShip);
+
+        assertFalse(isShipOnBoard(testBoard, testShip));
+    }
+
+    @Test
+    void testRemoveShipRemovesShipFromBoardShipList(){
+        testBoard.addShip(testShip, 0, 0);
+        testBoard.removeShip(testShip);
+
+        assertFalse(testBoard.shipList.contains(testShip));
+    }
+
+   private boolean isShipOnBoard(Boardable board, Ship ship){
+        for(int i = 0; i < board.getGrid().length; i++){
+            for(int j = 0; j < board.getGrid()[i].length; j++){
+                Sectionable section =  board.getSection(i, j);
+                if(section.getShipName() != null && section.getShipName().equals(ship.getName())){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // Getter tests
+
+    @Test
     void testGetGrid() {
         assertEquals(testBoard.grid, testBoard.getGrid());
     }
@@ -67,19 +110,6 @@ class BoardTest {
     @Test
     void testGetSection() {
         assertEquals(testBoard.grid[0][0], testBoard.getSection(0,0));
-    }
-
-    @Test
-    void testAddSection() {
-        Sectionable testShipSection = new ShipSection("test");
-        testBoard.addSection(testShipSection, 0, 0);
-        assertEquals(testShipSection, testBoard.getSection(0,0));
-    }
-
-    @Test
-    void testHitSectionChangesTheSectionToHit() {
-        testBoard.hitSection(0,0);
-        assertTrue(testBoard.getSection(0,0).getIsHit());
     }
 
     @Test
