@@ -98,6 +98,11 @@ class GameTest {
         assertTrue(game.shipList.contains(testShip1));
     }
 
+    @Test
+    void testTakeComputerTurnFiresOnPlayerBoard(){
+        // TODO: Fill this in.
+    }
+
 
     @Test
     void getShipList() {

@@ -34,7 +34,7 @@ public class GameController {
         return game.getBoards();
     }
 
-    // TODO: validate game start???
+    // TODO: add functionality for replacing an already placed ship. (check if it already exists, remove then replace w/ new coords);
     @PatchMapping("/board/place")
     public @ResponseBody
     Boardable placeShips(@RequestBody Request placeRequest) throws Exception{
@@ -49,6 +49,8 @@ public class GameController {
             throw new InvalidShipPlacementException();
         }
     }
+
+    // TODO: Figure out how players will take turns. Maybe will have to change what is returned here?
 
     @PatchMapping("/board/hit")
     public @ResponseBody

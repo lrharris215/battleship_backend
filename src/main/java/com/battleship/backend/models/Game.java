@@ -53,6 +53,11 @@ public class Game {
         playerShipList.remove(ship);
     }
 
+    public void takeComputerTurn(){
+        Request hitRequest = computerPlayer.generateValidHitRequest();
+        fire(getPlayerBoard(), hitRequest);
+    }
+
     private void setUpComputerBoard() {
         Boardable computerBoard = boardRepository.getComputerBoard();
         for (Ship ship : computerPlayer.getShipList()) {
