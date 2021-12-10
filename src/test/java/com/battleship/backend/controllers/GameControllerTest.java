@@ -122,8 +122,10 @@ class GameControllerTest {
         testBoard.addShip(testShip, 0, 0);
 
         Mockito.when(game.getComputerBoard()).thenReturn(testBoard);
+        Mockito.doNothing().when(game).takeComputerTurn();
         Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
         Mockito.when(game.getIsGameStarted()).thenReturn(true);
+        Mockito.doReturn(new Boardable[] {testBoard}).when(game).getBoards();
 
 
         MockHttpServletRequestBuilder builder =
@@ -134,7 +136,7 @@ class GameControllerTest {
                         .content(getHitRequestInJSON(0,0));
 
         //Returned board with ship hit.
-        String testBoardJSON = "{\"name\":\"testBoard\",\"grid\":[[{\"isShip\":true,\"isHit\":true,\"shipName\":\"test\"},{\"isShip\":true,\"isHit\":false,\"shipName\":\"test\"},{\"isHit\":false,\"isShip\":false,\"shipName\":null}],[{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}],[{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}]],\"shipList\":[{\"width\":2,\"height\":1,\"name\":\"test\",\"isSunk\":false,\"shipSections\":[{\"isShip\":true,\"isHit\":true,\"shipName\":\"test\"},{\"isShip\":true,\"isHit\":false,\"shipName\":\"test\"}]}],\"size\":3}";
+        String testBoardJSON = "[{\"name\":\"testBoard\",\"grid\":[[{\"isShip\":true,\"isHit\":true,\"shipName\":\"test\"},{\"isShip\":true,\"isHit\":false,\"shipName\":\"test\"},{\"isHit\":false,\"isShip\":false,\"shipName\":null}],[{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}],[{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}]],\"shipList\":[{\"width\":2,\"height\":1,\"name\":\"test\",\"isSunk\":false,\"shipSections\":[{\"isShip\":true,\"isHit\":true,\"shipName\":\"test\"},{\"isShip\":true,\"isHit\":false,\"shipName\":\"test\"}]}],\"size\":3}]";
 
         this.mockMvc.perform(builder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -145,9 +147,12 @@ class GameControllerTest {
     @Test
     void testHitShipUpdatesHitStatusOfOceanOnComputerBoard() throws Exception {
         Boardable testBoard = new TestClasses.TestBoard();
-        Mockito.when(boardRepository.getComputerBoard()).thenReturn(testBoard);
+
+        Mockito.when(game.getComputerBoard()).thenReturn(testBoard);
+        Mockito.doNothing().when(game).takeComputerTurn();
         Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
         Mockito.when(game.getIsGameStarted()).thenReturn(true);
+        Mockito.doReturn(new Boardable[] {testBoard}).when(game).getBoards();
 
 
         MockHttpServletRequestBuilder builder =
@@ -158,7 +163,7 @@ class GameControllerTest {
                         .content(getHitRequestInJSON(0,0));
 
         //Returned board with ocean hit.
-        String testBoardJSON = "{\"name\":\"testBoard\",\"grid\":[[{\"isHit\":true,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}],[{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}],[{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}]],\"shipList\":[],\"size\":3}";
+        String testBoardJSON = "[{\"name\":\"testBoard\",\"grid\":[[{\"isHit\":true,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}],[{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}],[{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}]],\"shipList\":[],\"size\":3}]";
 
         this.mockMvc.perform(builder)
                 .andExpect(MockMvcResultMatchers.status().isOk())

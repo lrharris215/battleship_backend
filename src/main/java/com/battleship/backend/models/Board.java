@@ -26,8 +26,6 @@ public class Board implements Boardable{
         shipList.add(ship);
     }
 
-    // TODO: need a way to remove a ship from the board. (needed for drag and drop to work, otherwise we'll end up w/ multiple copies in shiplist)
-
     public void removeShip(Ship ship){
         if(shipList.contains(ship)){
             for(int i = 0; i < grid.length; i++){

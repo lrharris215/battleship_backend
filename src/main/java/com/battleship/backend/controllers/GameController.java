@@ -54,13 +54,14 @@ public class GameController {
 
     @PatchMapping("/board/hit")
     public @ResponseBody
-    Boardable hitShip(@RequestBody Request hitRequest) throws Exception{
+    Boardable[] hitShip(@RequestBody Request hitRequest) throws Exception{
         Boardable computerBoard = game.getComputerBoard();
         if(!game.getIsGameStarted()){
             throw new GameNotReadyToStartException();
         }else if(hitRequestValidator.isValid(computerBoard, hitRequest)){
             game.fire(computerBoard, hitRequest);
-            return computerBoard;
+            game.takeComputerTurn();
+            return game.getBoards();
         }else {
             throw new InvalidHitException();
         }
