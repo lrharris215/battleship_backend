@@ -100,9 +100,22 @@ class GameTest {
 
     @Test
     void testTakeComputerTurnFiresOnPlayerBoard(){
-        // TODO: Fill this in.
+        game.takeComputerTurn();
+
+        assertTrue(hasPlayerBoardBeenFiredUpon(game.getPlayerBoard()));
     }
 
+   private boolean hasPlayerBoardBeenFiredUpon(Boardable board){
+        for(int i = 0; i < board.getGrid().length; i++){
+            for(int j = 0; j < board.getGrid()[i].length; j++){
+                Sectionable section = board.getSection(i, j);
+                if(section.getIsHit()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     @Test
     void getShipList() {
