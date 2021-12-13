@@ -57,7 +57,7 @@ class GameControllerTest {
 
 
     @Test
-    public void placeShipsPatchesShipOntoPlayerBoard() throws Exception {
+    public void placeShipPatchesShipOntoPlayerBoard() throws Exception {
         Mockito.when(game.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
         Mockito.when(placeValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
         Mockito.when(game.getIsGameStarted()).thenReturn(false);
@@ -79,7 +79,7 @@ class GameControllerTest {
     }
 
     @Test
-    public void testPlaceShipsThrowsExceptionIfInvalid() throws Exception{
+    public void testPlaceShipThrowsExceptionIfInvalid() throws Exception{
         Mockito.when(game.getPlayerBoard()).thenReturn(new TestClasses.TestBoard());
         Mockito.when(placeValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(false);
         Mockito.when(game.getIsGameStarted()).thenReturn(false);
@@ -98,7 +98,7 @@ class GameControllerTest {
     }
 
     @Test
-    void testPlaceShipsThrowsExceptionIfGameHasAlreadyStarted() throws Exception{
+    void testPlaceShipThrowsExceptionIfGameHasAlreadyStarted() throws Exception{
         Mockito.when(game.getIsGameStarted()).thenReturn(true);
 
         Ship testShip = new Ship("test", 2);
@@ -116,7 +116,7 @@ class GameControllerTest {
     }
 
     @Test
-    void testPlaceShipsRemovesShipFromOldSpotIfItsAlreadyOnBoard() throws Exception{
+    void testPlaceShipRemovesShipFromOldSpotIfItsAlreadyOnBoard() throws Exception{
         Boardable testBoard = new TestClasses.TestBoard();
         Ship testShip = new Ship("test", 2);
         testBoard.addShip(testShip, 2, 0);

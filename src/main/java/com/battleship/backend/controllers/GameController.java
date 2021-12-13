@@ -36,7 +36,7 @@ public class GameController {
 
     @PatchMapping("/board/place")
     public @ResponseBody
-    Boardable placeShips(@RequestBody Request placeRequest) throws Exception{
+    Boardable placeShip(@RequestBody Request placeRequest) throws Exception{
         Boardable playerBoard = game.getPlayerBoard();
         if(game.getIsGameStarted()){
             throw new GameHasAlreadyStartedException();
