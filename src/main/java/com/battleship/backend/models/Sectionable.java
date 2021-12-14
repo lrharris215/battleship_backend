@@ -8,5 +8,7 @@ public interface Sectionable {
 
     boolean getIsShip();
 
+    String getShipName();
+
 }
 

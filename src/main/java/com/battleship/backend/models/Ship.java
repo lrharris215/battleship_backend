@@ -49,6 +49,10 @@ public class Ship {
         return true;
     }
 
+    public boolean equals(Ship otherShip){
+        return this.name.equals(otherShip.getName());
+    }
+
 
 
     // getters

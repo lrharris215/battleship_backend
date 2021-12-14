@@ -38,18 +38,9 @@ class BoardTest {
     }
 
     @Test
-    void testGetGrid() {
-        assertEquals(testBoard.grid, testBoard.getGrid());
-    }
-
-    @Test
-    void testGetName() {
-        assertEquals("TestBoard", testBoard.getName());
-    }
-
-    @Test
-    void testGetSection() {
-        assertEquals(testBoard.grid[0][0], testBoard.getSection(0,0));
+    public void testAddShipAddsTheShipToTheShipList(){
+        testBoard.addShip(testShip, 0,0);
+        assertTrue(testBoard.shipList.contains(testShip));
     }
 
     @Test
@@ -63,6 +54,69 @@ class BoardTest {
     void testHitSectionChangesTheSectionToHit() {
         testBoard.hitSection(0,0);
         assertTrue(testBoard.getSection(0,0).getIsHit());
+    }
+
+    @Test
+    void testRemoveShipRemovesShipFromBoard(){
+        testBoard.addShip(testShip, 0, 0);
+        testBoard.removeShip(testShip);
+
+        assertFalse(isShipOnBoard(testBoard, testShip));
+    }
+
+    @Test
+    void testRemoveShipRemovesShipFromBoardShipList(){
+        testBoard.addShip(testShip, 0, 0);
+        testBoard.removeShip(testShip);
+
+        assertFalse(testBoard.shipList.contains(testShip));
+    }
+
+    @Test
+    void testHasShip(){
+        testBoard.addShip(testShip, 0 ,0);
+        assertTrue(testBoard.hasShip(testShip));
+    }
+
+   private boolean isShipOnBoard(Boardable board, Ship ship){
+        for(int i = 0; i < board.getGrid().length; i++){
+            for(int j = 0; j < board.getGrid()[i].length; j++){
+                Sectionable section =  board.getSection(i, j);
+                if(section.getShipName() != null && section.getShipName().equals(ship.getName())){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    // Getter tests
+
+    @Test
+    void testGetGrid() {
+        assertEquals(testBoard.grid, testBoard.getGrid());
+    }
+
+    @Test
+    void testGetName() {
+        assertEquals("TestBoard", testBoard.getName());
+    }
+
+    @Test
+    void testHasShipsReturnsTrueIfShipsOnBoard(){
+        testBoard.addShip(testShip, 0 ,0);
+        assertTrue(testBoard.hasShips());
+    }
+
+    @Test
+    void testHasShipsReturnsFalseIfNoShipsOnBoard(){
+        assertFalse(testBoard.hasShips());
+    }
+
+    @Test
+    void testGetSection() {
+        assertEquals(testBoard.grid[0][0], testBoard.getSection(0,0));
     }
 
     @Test
