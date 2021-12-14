@@ -70,6 +70,9 @@ public class GameController {
     @PostMapping("/game/start")
     public @ResponseBody
     String startGame() throws Exception {
+        if(game.getIsGameStarted()){
+            throw new GameHasAlreadyStartedException();
+        }
         if(game.isPlayerReadyToStart()){
             game.start();
             return "Yay game has started";

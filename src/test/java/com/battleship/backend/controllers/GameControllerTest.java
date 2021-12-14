@@ -268,6 +268,23 @@ class GameControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string(containsString("The game cannot be started:")));
     }
 
+    @Test
+    void testStartGameThrowsExceptionIfGameHasAlreadyStarted() throws Exception{
+        Mockito.doReturn(true).when(game).getIsGameStarted();
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.post("/game/start")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8");
+
+
+        this.mockMvc.perform(builder)
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string(containsString("The game has already started!")));
+    }
+
+
     private String getPlaceRequestInJSON(Ship ship, int row, int col){
         return "{\"ship\": { \"name\":\"" + ship.getName() + "\", \"width\": " + ship.getWidth() + ", \"height\": "+ ship.getHeight() + ", \"isSunk\": "+ ship.getIsSunk() + ", \"shipSections\": [{\"isHit\": false, \"isShip\": true, \"shipName\": \"test\"},{\"isHit\": false, \"isShip\": true, \"shipName\": \"test\"}]}, \"row\": " + row + " , \"col\": " + col + "}";
 
