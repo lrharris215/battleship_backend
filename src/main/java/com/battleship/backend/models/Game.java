@@ -49,8 +49,14 @@ public class Game {
         return getPlayerBoard().getShipList().equals(shipList) && playerShipList.isEmpty();
     }
 
-    public void removePlayerShip(Ship ship){
-        playerShipList.remove(ship);
+    public void removePlayerShip(Ship shipToRemove){
+        Ship deletedShip = null;
+        for(Ship ship : shipList){
+            if(ship.equals(shipToRemove)){
+                deletedShip = ship;
+            };
+        }
+        playerShipList.remove(deletedShip);
     }
 
     public void takeComputerTurn(){
