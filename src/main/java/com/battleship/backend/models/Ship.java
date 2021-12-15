@@ -40,6 +40,7 @@ public class Ship {
     }
 
     public boolean checkIsSunk() {
+        if(isSunk) return true;
         for (ShipSection shipSection : shipSections) {
             if (!shipSection.getIsHit()) {
                 return false;
