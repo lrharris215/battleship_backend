@@ -17,9 +17,6 @@ public class Board implements Boardable{
     }
 
     public void addShip(Ship ship, int row, int col){
-        System.out.println("ship:" + ship.getName());
-        System.out.println("row: " + row);
-        System.out.println("col: " + col);
         for(int i = 0; i < ship.getWidth(); i++){
             addSection(ship.getShipSection(i), row, col + i);
         }

@@ -28,7 +28,7 @@ class GameTest {
         testShip1 =  new Ship("testShip1", 3);
         testShip2 = new Ship("testShip2", 2);
         shipList = new Ship[] { testShip1, testShip2};
-        game = new Game(boardRepository, new Validator[]{placeShipsValidator, hitRequestValidator}, shipList);
+        game = new Game(boardRepository, placeShipsValidator, hitRequestValidator, shipList);
     }
 
     @Test

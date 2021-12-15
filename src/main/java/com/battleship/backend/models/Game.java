@@ -2,6 +2,8 @@ package com.battleship.backend.models;
 
 import com.battleship.backend.BoardRepository;
 import com.battleship.backend.exceptions.GameNotReadyToStartException;
+import com.battleship.backend.validators.HitRequestValidator;
+import com.battleship.backend.validators.PlaceShipsValidator;
 import com.battleship.backend.validators.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,11 +22,11 @@ public class Game {
     boolean isGameStarted;
     ArrayList<Ship> playerShipList;
 
-    public Game(BoardRepository boardRepository, Validator[] validators, Ship[] shipList){
+    public Game(BoardRepository boardRepository, Validator placeShipsValidator, Validator hitRequestValidator, Ship[] shipList){
         this.boardRepository = boardRepository;
         this.shipList = new ArrayList<Ship>(Arrays.stream(shipList).toList());
-        placeShipsValidator = validators[0];
-        hitRequestValidator = validators[1];
+        this.placeShipsValidator = placeShipsValidator;
+        this.hitRequestValidator = hitRequestValidator;
         computerPlayer = new ComputerPlayer(boardRepository, shipList, placeShipsValidator, hitRequestValidator);
         isGameStarted = false;
         playerShipList = new ArrayList<Ship>(Arrays.stream(shipList).toList());
@@ -70,7 +72,6 @@ public class Game {
         for (Ship ship : computerPlayer.getShipList()) {
             Request placeRequest = computerPlayer.generateValidPlaceRequest(ship);
             placeShip(computerBoard, placeRequest);
-            computerPlayer.removeShip(ship);
         }
     }
 

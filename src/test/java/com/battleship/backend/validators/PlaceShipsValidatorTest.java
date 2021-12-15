@@ -1,9 +1,11 @@
 package com.battleship.backend.validators;
 
 import com.battleship.backend.TestClasses;
+import com.battleship.backend.models.Board;
 import com.battleship.backend.models.Boardable;
 import com.battleship.backend.models.Request;
 import com.battleship.backend.models.Ship;
+import org.apache.logging.log4j.message.ReusableMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
