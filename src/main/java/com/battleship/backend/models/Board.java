@@ -17,6 +17,9 @@ public class Board implements Boardable{
     }
 
     public void addShip(Ship ship, int row, int col){
+        System.out.println("ship:" + ship.getName());
+        System.out.println("row: " + row);
+        System.out.println("col: " + col);
         for(int i = 0; i < ship.getWidth(); i++){
             addSection(ship.getShipSection(i), row, col + i);
         }
@@ -64,6 +67,19 @@ public class Board implements Boardable{
             }
         }
         return false;
+    }
+
+    public boolean shipListEquals(ArrayList<Ship> otherShipList){
+        int count = 0;
+        for(Ship boardShip : shipList){
+            for(Ship otherShip : otherShipList){
+                if(boardShip.equals(otherShip)){
+                    count += 1;
+                }
+
+            }
+        }
+        return count == shipList.size();
     }
 
     // Getters

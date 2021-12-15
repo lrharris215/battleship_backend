@@ -80,6 +80,19 @@ public class TestClasses {
 
             }
 
+        public boolean shipListEquals(ArrayList<Ship> otherShipList){
+            int count = 0;
+            for(Ship boardShip : shipList){
+                for(Ship otherShip : otherShipList){
+                    if(boardShip.equals(otherShip)){
+                        count += 1;
+                    }
+
+                }
+            }
+            return count == shipList.size();
+        }
+
         public void hitSection(int row, int col) {
             getSection(row, col).receiveHit();
         }
