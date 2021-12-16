@@ -1,7 +1,6 @@
 package com.battleship.backend.models;
 
 import com.battleship.backend.BoardRepository;
-import com.battleship.backend.TestClasses;
 import com.battleship.backend.validators.HitRequestValidator;
 import com.battleship.backend.validators.PlaceShipsValidator;
 import com.battleship.backend.validators.Validator;
@@ -28,7 +27,7 @@ class GameTest {
         testShip1 =  new Ship("testShip1", 3);
         testShip2 = new Ship("testShip2", 2);
         shipList = new Ship[] { testShip1, testShip2};
-        game = new Game(boardRepository, new Validator[]{placeShipsValidator, hitRequestValidator}, shipList);
+        game = new Game(boardRepository, placeShipsValidator, hitRequestValidator, shipList);
     }
 
     @Test

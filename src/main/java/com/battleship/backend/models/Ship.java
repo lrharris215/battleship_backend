@@ -1,6 +1,5 @@
 package com.battleship.backend.models;
 
-import java.util.Arrays;
 
 public class Ship {
     int width;
@@ -40,6 +39,7 @@ public class Ship {
     }
 
     public boolean checkIsSunk() {
+        if(isSunk) return true;
         for (ShipSection shipSection : shipSections) {
             if (!shipSection.getIsHit()) {
                 return false;

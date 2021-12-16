@@ -1,18 +1,15 @@
 package com.battleship.backend.controllers;
-import com.battleship.backend.BoardRepository;
 import com.battleship.backend.exceptions.GameHasAlreadyStartedException;
 import com.battleship.backend.exceptions.GameNotReadyToStartException;
 import com.battleship.backend.exceptions.InvalidHitException;
 import com.battleship.backend.exceptions.InvalidShipPlacementException;
 import com.battleship.backend.models.*;
-import com.battleship.backend.validators.HitRequestValidator;
-import com.battleship.backend.validators.PlaceShipsValidator;
 import com.battleship.backend.validators.Validator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 @Controller
 public class GameController {

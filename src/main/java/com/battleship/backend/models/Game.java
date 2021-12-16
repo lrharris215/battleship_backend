@@ -1,14 +1,11 @@
 package com.battleship.backend.models;
 
 import com.battleship.backend.BoardRepository;
-import com.battleship.backend.exceptions.GameNotReadyToStartException;
 import com.battleship.backend.validators.Validator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 @Component
 public class Game {
@@ -20,11 +17,11 @@ public class Game {
     boolean isGameStarted;
     ArrayList<Ship> playerShipList;
 
-    public Game(BoardRepository boardRepository, Validator[] validators, Ship[] shipList){
+    public Game(BoardRepository boardRepository, Validator placeShipsValidator, Validator hitRequestValidator, Ship[] shipList){
         this.boardRepository = boardRepository;
         this.shipList = new ArrayList<Ship>(Arrays.stream(shipList).toList());
-        placeShipsValidator = validators[0];
-        hitRequestValidator = validators[1];
+        this.placeShipsValidator = placeShipsValidator;
+        this.hitRequestValidator = hitRequestValidator;
         computerPlayer = new ComputerPlayer(boardRepository, shipList, placeShipsValidator, hitRequestValidator);
         isGameStarted = false;
         playerShipList = new ArrayList<Ship>(Arrays.stream(shipList).toList());
@@ -46,11 +43,18 @@ public class Game {
     }
 
     public boolean isPlayerReadyToStart(){
-        return getPlayerBoard().getShipList().equals(shipList) && playerShipList.isEmpty();
+
+        return getPlayerBoard().isPermutationOfShipList(shipList) && playerShipList.isEmpty();
     }
 
-    public void removePlayerShip(Ship ship){
-        playerShipList.remove(ship);
+    public void removePlayerShip(Ship shipToRemove){
+        Ship deletedShip = null;
+        for(Ship ship : shipList){
+            if(ship.equals(shipToRemove)){
+                deletedShip = ship;
+            }
+        }
+        playerShipList.remove(deletedShip);
     }
 
     public void takeComputerTurn(){
@@ -63,7 +67,6 @@ public class Game {
         for (Ship ship : computerPlayer.getShipList()) {
             Request placeRequest = computerPlayer.generateValidPlaceRequest(ship);
             placeShip(computerBoard, placeRequest);
-            computerPlayer.removeShip(ship);
         }
     }
 

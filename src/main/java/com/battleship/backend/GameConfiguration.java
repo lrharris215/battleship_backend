@@ -1,12 +1,7 @@
 package com.battleship.backend;
 
-import com.battleship.backend.models.Board;
 import com.battleship.backend.models.Ship;
-import com.battleship.backend.validators.HitRequestValidator;
-import com.battleship.backend.validators.PlaceShipsValidator;
-import com.battleship.backend.validators.Validator;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -19,6 +14,7 @@ public class GameConfiguration {
         Ship cruiser = new Ship("Cruiser", 3);
         Ship submarine = new Ship("Submarine", 3);
         Ship destroyer = new Ship("Destroyer", 2);
+
         return new Ship[] { carrier, battleShip, cruiser, submarine, destroyer};
     }
 }

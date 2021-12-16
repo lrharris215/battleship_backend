@@ -80,6 +80,10 @@ public class TestClasses {
 
             }
 
+        public boolean isPermutationOfShipList(ArrayList<Ship> otherShipList){
+            return true;
+        }
+
         public void hitSection(int row, int col) {
             getSection(row, col).receiveHit();
         }

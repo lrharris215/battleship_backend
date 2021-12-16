@@ -20,4 +20,6 @@ public interface Boardable {
     ArrayList<Ship> getShipList();
 
     boolean hasShip(Ship ship);
+
+    boolean isPermutationOfShipList(ArrayList<Ship> otherShipList);
 }

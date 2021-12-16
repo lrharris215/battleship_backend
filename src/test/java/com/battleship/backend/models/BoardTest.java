@@ -3,6 +3,8 @@ package com.battleship.backend.models;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
@@ -76,6 +78,30 @@ class BoardTest {
     void testHasShip(){
         testBoard.addShip(testShip, 0 ,0);
         assertTrue(testBoard.hasShip(testShip));
+    }
+
+    @Test
+    void testIsPermutationOfShipListReturnsTrueIfAllShipNamesMatch(){
+        ArrayList<Ship> testList = new ArrayList<Ship>();
+        testList.add(new Ship("test1", 2));
+        testList.add(new Ship("test2", 2));
+
+        testBoard.addShip(new Ship("test1", 2), 0 ,0);
+        testBoard.addShip(new Ship("test2", 2), 1 ,0);
+
+        assertTrue(testBoard.isPermutationOfShipList(testList));
+    }
+
+    @Test
+    void testIsPermutationOFShipListReturnsFalseIfNamesDoNotMatch(){
+        ArrayList<Ship> testList = new ArrayList<Ship>();
+        testList.add(new Ship("test1", 2));
+        testList.add(new Ship("test2", 2));
+
+        testBoard.addShip(new Ship("test1", 2), 0 ,0);
+        testBoard.addShip(new Ship("test3", 2), 1 ,0);
+
+        assertFalse(testBoard.isPermutationOfShipList(testList));
     }
 
    private boolean isShipOnBoard(Boardable board, Ship ship){
