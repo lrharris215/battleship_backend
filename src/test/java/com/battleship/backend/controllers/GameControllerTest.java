@@ -144,16 +144,16 @@ class GameControllerTest {
     }
 
     @Test
-    void testHitShipUpdatesShipStatusOnComputerBoard() throws Exception {
+    void testHitShipReturnsMessageWithHitShipName() throws Exception {
         Boardable testBoard = new TestClasses.TestBoard();
-        Ship testShip = new Ship("test", 2);
+        Ship testShip = new Ship("test ship", 2);
         testBoard.addShip(testShip, 0, 0);
 
         Mockito.when(game.getComputerBoard()).thenReturn(testBoard);
-        Mockito.doNothing().when(game).takeComputerTurn();
         Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
         Mockito.when(game.getIsGameStarted()).thenReturn(true);
         Mockito.doReturn(new Boardable[] {testBoard}).when(game).getBoards();
+        Mockito.doReturn(false).when(game).isGameOver();
 
 
         MockHttpServletRequestBuilder builder =
@@ -163,23 +163,21 @@ class GameControllerTest {
                         .characterEncoding("UTF-8")
                         .content(getHitRequestInJSON(0,0));
 
-        //Returned board with ship hit.
-        String testBoardJSON = "[{\"name\":\"testBoard\",\"grid\":[[{\"isShip\":true,\"isHit\":true,\"shipName\":\"test\"},{\"isShip\":true,\"isHit\":false,\"shipName\":\"test\"},{\"isHit\":false,\"isShip\":false,\"shipName\":null}],[{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}],[{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}]],\"shipList\":[{\"width\":2,\"height\":1,\"name\":\"test\",\"isSunk\":false,\"shipSections\":[{\"isShip\":true,\"isHit\":true,\"shipName\":\"test\"},{\"isShip\":true,\"isHit\":false,\"shipName\":\"test\"}]}],\"size\":3,\"everyShipSunk\":false}]";
-
         this.mockMvc.perform(builder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(testBoardJSON))
+                .andExpect(MockMvcResultMatchers.content().string("The testBoard's test ship has been hit!"))
                 .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
-    void testHitShipUpdatesHitStatusOfOceanOnComputerBoard() throws Exception {
+    void testHitShipReturnsWinnerMessageIfGameHasBeenWon() throws Exception {
         Boardable testBoard = new TestClasses.TestBoard();
 
         Mockito.when(game.getComputerBoard()).thenReturn(testBoard);
-        Mockito.doNothing().when(game).takeComputerTurn();
         Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
         Mockito.when(game.getIsGameStarted()).thenReturn(true);
+        Mockito.doReturn(true).when(game).isGameOver();
+        Mockito.doReturn("Human Player is the Winner!").when(game).getWinner();
         Mockito.doReturn(new Boardable[] {testBoard}).when(game).getBoards();
 
 
@@ -190,12 +188,33 @@ class GameControllerTest {
                         .characterEncoding("UTF-8")
                         .content(getHitRequestInJSON(0,0));
 
-        //Returned board with ocean hit.
-        String testBoardJSON = "[{\"name\":\"testBoard\",\"grid\":[[{\"isHit\":true,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}],[{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}],[{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null},{\"isHit\":false,\"isShip\":false,\"shipName\":null}]],\"shipList\":[],\"size\":3,\"everyShipSunk\":false}]";
+        this.mockMvc.perform(builder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("The Game is Over! Human Player is the Winner!"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    void testHitShipReturnsMissedMessageIfOnlyOceanIsHit() throws Exception{
+        Boardable testBoard = new TestClasses.TestBoard();
+
+        Mockito.when(game.getComputerBoard()).thenReturn(testBoard);
+        Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
+        Mockito.when(game.getIsGameStarted()).thenReturn(true);
+        Mockito.doReturn(false).when(game).isGameOver();
+        Mockito.doReturn(new Boardable[] {testBoard}).when(game).getBoards();
+
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.patch("/board/hit")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(getHitRequestInJSON(0,0));
 
         this.mockMvc.perform(builder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(testBoardJSON))
+                .andExpect(MockMvcResultMatchers.content().string("Missed!"))
                 .andDo(MockMvcResultHandlers.print());
     }
 
@@ -206,6 +225,7 @@ class GameControllerTest {
         Mockito.when(boardRepository.getComputerBoard()).thenReturn(testBoard);
         Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(false);
         Mockito.when(game.getIsGameStarted()).thenReturn(true);
+        Mockito.doReturn(false).when(game).isGameOver();
 
 
 

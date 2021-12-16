@@ -76,6 +76,18 @@ public class Game {
         }else return "Game is not over";
     }
 
+    //returns result of a hit request
+
+    public String shipHitResult(Boardable board, Request hitRequest){
+        String hitResult = "Missed!";
+        Sectionable hitSection = board.getSection(hitRequest.getRow(), hitRequest.getCol());
+        if(this.isGameOver()){
+            hitResult = "The Game is Over! " + this.getWinner();
+        }else if(board.getSection(hitRequest.getRow(), hitRequest.getCol()).getIsShip()){
+            hitResult = "The " + board.getName() + "'s " + hitSection.getShipName() + " has been hit!";
+        }
+        return hitResult;
+    }
     private void setUpComputerBoard() {
         Boardable computerBoard = boardRepository.getComputerBoard();
         for (Ship ship : computerPlayer.getShipList()) {
