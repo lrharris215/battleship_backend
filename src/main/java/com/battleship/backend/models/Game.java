@@ -62,6 +62,20 @@ public class Game {
         fire(getPlayerBoard(), hitRequest);
     }
 
+    // check if game is over
+    public boolean isGameOver(){
+        return getPlayerBoard().isEveryShipSunk() || getComputerBoard().isEveryShipSunk();
+    }
+    // check winner
+
+    public String getWinner(){
+        if(getPlayerBoard().isEveryShipSunk()){
+            return "Computer Player is the Winner!";
+        }else if(getComputerBoard().isEveryShipSunk()){
+            return "Human Player is the Winner!";
+        }else return "Game is not over";
+    }
+
     private void setUpComputerBoard() {
         Boardable computerBoard = boardRepository.getComputerBoard();
         for (Ship ship : computerPlayer.getShipList()) {

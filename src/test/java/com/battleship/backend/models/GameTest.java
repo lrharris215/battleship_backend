@@ -6,8 +6,13 @@ import com.battleship.backend.validators.PlaceShipsValidator;
 import com.battleship.backend.validators.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class GameTest {
 
@@ -18,6 +23,7 @@ class GameTest {
     Ship[] shipList;
     Ship testShip1;
     Ship testShip2;
+
 
     @BeforeEach
     void initNewGame(){
@@ -104,6 +110,94 @@ class GameTest {
         assertTrue(hasPlayerBoardBeenFiredUpon(game.getPlayerBoard()));
     }
 
+    @Test
+    void testIsGameOverReturnsTrueIfTheComputerHasWon(){
+        Ship testShip3 = new Ship("testShip3", 2);
+        Boardable playerBoard = game.getPlayerBoard();
+        Boardable computerBoard = game.getComputerBoard();
+        playerBoard.addShip(testShip1, 0,0);
+        playerBoard.addShip(testShip2, 1,0);
+        computerBoard.addShip(testShip3, 0,0);
+
+        sinkShip(testShip1);
+        sinkShip(testShip2);
+
+        assertTrue(game.isGameOver());
+    }
+
+    @Test
+    void testIsGameOverReturnsTrueIfHumanHasWon(){
+        Ship testShip3 = new Ship("testShip3", 2);
+        Boardable computerBoard = game.getComputerBoard();
+        Boardable playerBoard = game.getPlayerBoard();
+        computerBoard.addShip(testShip1, 0,0);
+        computerBoard.addShip(testShip2, 1,0);
+        playerBoard.addShip(testShip3, 0, 0);
+
+        sinkShip(testShip1);
+        sinkShip(testShip2);
+
+        assertTrue(game.isGameOver());
+    }
+
+    @Test
+    void testIsGameOverReturnsFalseIfGameIsNotOver(){
+        Ship testShip3 = new Ship("testShip3", 2);
+        Boardable computerBoard = game.getComputerBoard();
+        Boardable playerBoard = game.getPlayerBoard();
+        computerBoard.addShip(testShip1, 0,0);
+        computerBoard.addShip(testShip2, 1,0);
+        playerBoard.addShip(testShip3, 0 ,0);
+
+        sinkShip(testShip1);
+
+        assertFalse(game.isGameOver());
+    }
+
+    @Test
+    void testGetWinnerReturnsAMessageThatHumanIsTheWinner(){
+        Ship testShip3 = new Ship("testShip3", 2);
+        Boardable computerBoard = game.getComputerBoard();
+        Boardable playerBoard = game.getPlayerBoard();
+        computerBoard.addShip(testShip1, 0,0);
+        computerBoard.addShip(testShip2, 1,0);
+        playerBoard.addShip(testShip3, 0, 0);
+
+        sinkShip(testShip1);
+        sinkShip(testShip2);
+
+        assertEquals("Human Player is the Winner!", game.getWinner());
+    }
+
+    @Test
+    void testGetWinnerReturnsMessageThatComputerIsTheWinner(){
+        Ship testShip3 = new Ship("testShip3", 2);
+        Boardable playerBoard = game.getPlayerBoard();
+        Boardable computerBoard = game.getComputerBoard();
+        playerBoard.addShip(testShip1, 0,0);
+        playerBoard.addShip(testShip2, 1,0);
+        computerBoard.addShip(testShip3, 0,0);
+
+        sinkShip(testShip1);
+        sinkShip(testShip2);
+
+        assertEquals("Computer Player is the Winner!", game.getWinner());
+    }
+
+    @Test
+    void testGetWinnerReturnsMessageThatGameIsNotOverIfNoWinner(){
+        Ship testShip3 = new Ship("testShip3", 2);
+        Boardable computerBoard = game.getComputerBoard();
+        Boardable playerBoard = game.getPlayerBoard();
+        computerBoard.addShip(testShip1, 0,0);
+        computerBoard.addShip(testShip2, 1,0);
+        playerBoard.addShip(testShip3, 0 ,0);
+
+        sinkShip(testShip1);
+
+        assertEquals("Game is not over", game.getWinner());
+    }
+
    private boolean hasPlayerBoardBeenFiredUpon(Boardable board){
         for(int i = 0; i < board.getGrid().length; i++){
             for(int j = 0; j < board.getGrid()[i].length; j++){
@@ -114,6 +208,12 @@ class GameTest {
             }
         }
         return false;
+    }
+
+    private void sinkShip(Ship ship){
+        for(ShipSection shipSection : ship.getShipSections()) {
+            shipSection.receiveHit();
+        }
     }
 
     @Test
