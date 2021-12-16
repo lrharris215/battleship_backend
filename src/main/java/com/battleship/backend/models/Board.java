@@ -66,16 +66,17 @@ public class Board implements Boardable{
         return false;
     }
 
-    public boolean shipListEquals(ArrayList<Ship> otherShipList){
+    public boolean isPermutationOfShipList(ArrayList<Ship> otherShipList){
         int count = 0;
         for(Ship boardShip : shipList){
             for(Ship otherShip : otherShipList){
                 if(boardShip.equals(otherShip)){
                     count += 1;
+                    break;
                 }
             }
         }
-        return count == shipList.size();
+        return count == shipList.size() && count == otherShipList.size();
     }
 
     // Getters

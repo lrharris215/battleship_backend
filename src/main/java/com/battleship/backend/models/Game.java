@@ -1,16 +1,11 @@
 package com.battleship.backend.models;
 
 import com.battleship.backend.BoardRepository;
-import com.battleship.backend.exceptions.GameNotReadyToStartException;
-import com.battleship.backend.validators.HitRequestValidator;
-import com.battleship.backend.validators.PlaceShipsValidator;
 import com.battleship.backend.validators.Validator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 @Component
 public class Game {
@@ -49,7 +44,7 @@ public class Game {
 
     public boolean isPlayerReadyToStart(){
 
-        return getPlayerBoard().shipListEquals(shipList) && playerShipList.isEmpty();
+        return getPlayerBoard().isPermutationOfShipList(shipList) && playerShipList.isEmpty();
     }
 
     public void removePlayerShip(Ship shipToRemove){

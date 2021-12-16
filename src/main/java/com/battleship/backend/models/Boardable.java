@@ -21,5 +21,5 @@ public interface Boardable {
 
     boolean hasShip(Ship ship);
 
-    boolean shipListEquals(ArrayList<Ship> otherShipList);
+    boolean isPermutationOfShipList(ArrayList<Ship> otherShipList);
 }

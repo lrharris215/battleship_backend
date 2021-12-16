@@ -80,7 +80,7 @@ public class TestClasses {
 
             }
 
-        public boolean shipListEquals(ArrayList<Ship> otherShipList){
+        public boolean isPermutationOfShipList(ArrayList<Ship> otherShipList){
             return true;
         }
 

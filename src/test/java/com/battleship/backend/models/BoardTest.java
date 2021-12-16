@@ -81,7 +81,7 @@ class BoardTest {
     }
 
     @Test
-    void testShipListEqualsReturnsTrueIfAllShipNamesMatch(){
+    void testIsPermutationOfShipListReturnsTrueIfAllShipNamesMatch(){
         ArrayList<Ship> testList = new ArrayList<Ship>();
         testList.add(new Ship("test1", 2));
         testList.add(new Ship("test2", 2));
@@ -89,11 +89,11 @@ class BoardTest {
         testBoard.addShip(new Ship("test1", 2), 0 ,0);
         testBoard.addShip(new Ship("test2", 2), 1 ,0);
 
-        assertTrue(testBoard.shipListEquals(testList));
+        assertTrue(testBoard.isPermutationOfShipList(testList));
     }
 
     @Test
-    void testShipListEqualsReturnsFalseIfNamesDoNotMatch(){
+    void testIsPermutationOFShipListReturnsFalseIfNamesDoNotMatch(){
         ArrayList<Ship> testList = new ArrayList<Ship>();
         testList.add(new Ship("test1", 2));
         testList.add(new Ship("test2", 2));
@@ -101,7 +101,7 @@ class BoardTest {
         testBoard.addShip(new Ship("test1", 2), 0 ,0);
         testBoard.addShip(new Ship("test3", 2), 1 ,0);
 
-        assertFalse(testBoard.shipListEquals(testList));
+        assertFalse(testBoard.isPermutationOfShipList(testList));
     }
 
    private boolean isShipOnBoard(Boardable board, Ship ship){
