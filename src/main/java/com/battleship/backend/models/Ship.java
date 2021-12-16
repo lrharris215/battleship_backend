@@ -1,6 +1,5 @@
 package com.battleship.backend.models;
 
-import java.util.Arrays;
 
 public class Ship {
     int width;

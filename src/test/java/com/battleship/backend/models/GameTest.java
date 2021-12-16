@@ -1,7 +1,6 @@
 package com.battleship.backend.models;
 
 import com.battleship.backend.BoardRepository;
-import com.battleship.backend.TestClasses;
 import com.battleship.backend.validators.HitRequestValidator;
 import com.battleship.backend.validators.PlaceShipsValidator;
 import com.battleship.backend.validators.Validator;

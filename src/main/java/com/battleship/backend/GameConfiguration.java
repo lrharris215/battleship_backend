@@ -1,12 +1,7 @@
 package com.battleship.backend;
 
-import com.battleship.backend.models.Board;
 import com.battleship.backend.models.Ship;
-import com.battleship.backend.validators.HitRequestValidator;
-import com.battleship.backend.validators.PlaceShipsValidator;
-import com.battleship.backend.validators.Validator;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
