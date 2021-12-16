@@ -79,6 +79,17 @@ public class Board implements Boardable{
         return count == shipList.size() && count == otherShipList.size();
     }
 
+    // checkIfShipsAreSunk
+    // all ships are sunk
+    public boolean isEveryShipSunk(){
+        for(Ship ship : shipList){
+            if(!ship.checkIsSunk()){
+                return false;
+            }
+        }
+        return true;
+    }
+
     // Getters
     public Sectionable[][] getGrid(){
         return grid;

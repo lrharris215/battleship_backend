@@ -104,6 +104,29 @@ class BoardTest {
         assertFalse(testBoard.isPermutationOfShipList(testList));
     }
 
+    @Test
+    void testIsEveryShipIsSunkReturnsTrueIfAllShipsAreSunk(){
+        testBoard.addShip(testShip, 0, 0);
+        Ship testShip2 = new Ship("testShip2", 2);
+        testBoard.addShip(testShip2, 1 ,0);
+
+        sinkShip(testShip);
+        sinkShip(testShip2);
+
+        assertTrue(testBoard.isEveryShipSunk());
+    }
+
+    @Test
+    void testIsEveryShipIsSunkReturnsFalseIfNotAllShipsAreSunk(){
+        testBoard.addShip(testShip, 0, 0);
+        Ship testShip2 = new Ship("testShip2", 2);
+        testBoard.addShip(testShip2, 1 ,0);
+
+        sinkShip(testShip);
+
+        assertFalse(testBoard.isEveryShipSunk());
+    }
+
    private boolean isShipOnBoard(Boardable board, Ship ship){
         for(int i = 0; i < board.getGrid().length; i++){
             for(int j = 0; j < board.getGrid()[i].length; j++){
@@ -114,6 +137,12 @@ class BoardTest {
             }
         }
         return false;
+    }
+
+    private void sinkShip(Ship ship){
+        for(ShipSection shipSection : ship.getShipSections()) {
+            shipSection.receiveHit();
+        }
     }
 
 
