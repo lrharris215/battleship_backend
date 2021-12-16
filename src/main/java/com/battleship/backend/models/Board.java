@@ -73,7 +73,6 @@ public class Board implements Boardable{
                 if(boardShip.equals(otherShip)){
                     count += 1;
                 }
-
             }
         }
         return count == shipList.size();
