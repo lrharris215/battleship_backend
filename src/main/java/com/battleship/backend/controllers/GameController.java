@@ -67,10 +67,7 @@ public class GameController {
     @PostMapping("/board/computer_turn")
     public @ResponseBody
     String computerTurn() throws Exception {
-        String computerOutcome = "";
-        game.takeComputerTurn();
-        // game.shipHitResult(computer, hitrequest)
-        return computerOutcome;
+        return game.takeComputerTurn();
     }
 
     @PostMapping("/game/start")

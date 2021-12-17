@@ -44,6 +44,9 @@ class GameControllerTest {
     @MockBean
     private HitRequestValidator hitValidator;
 
+    @MockBean
+    private ComputerPlayer computerPlayer;
+
     @SpyBean
     private Game game;
 
@@ -254,6 +257,94 @@ class GameControllerTest {
         this.mockMvc.perform(builder)
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.content().string(containsString("The game cannot be started:")));
+    }
+
+    @Test
+    void testComputerTurnReturnsMissedMessageIfOceanIsHit() throws Exception{
+        Boardable testBoard = new TestClasses.TestBoard();
+        game.setComputerPlayer(computerPlayer);
+
+        Mockito.when(game.getPlayerBoard()).thenReturn(testBoard);
+        Mockito.when(computerPlayer.generateValidHitRequest()).thenReturn(new Request(null, 0, 0));
+        Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
+        Mockito.when(game.getIsGameStarted()).thenReturn(true);
+
+        Mockito.doReturn(false).when(game).isGameOver();
+        Mockito.doReturn(new Boardable[] {testBoard}).when(game).getBoards();
+
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.post("/board/computer_turn")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8");
+
+
+        this.mockMvc.perform(builder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Missed!"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    void testComputerTurnReturnsHitShipMessageIfShipIsHit() throws Exception{
+        Boardable testBoard = new TestClasses.TestBoard();
+        Ship testShip = new Ship("testShip", 2);
+        testBoard.addShip(testShip, 0, 0);
+        game.setComputerPlayer(computerPlayer);
+
+        Mockito.when(game.getPlayerBoard()).thenReturn(testBoard);
+        Mockito.when(computerPlayer.generateValidHitRequest()).thenReturn(new Request(null, 0, 0));
+        Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
+        Mockito.when(game.getIsGameStarted()).thenReturn(true);
+
+        Mockito.doReturn(false).when(game).isGameOver();
+        Mockito.doReturn(new Boardable[] {testBoard}).when(game).getBoards();
+
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.post("/board/computer_turn")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8");
+
+
+        this.mockMvc.perform(builder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("The testBoard's testShip has been hit!"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    void testComputerTurnReturnsWinnerMessageIfGameIsOver() throws Exception{
+        Boardable testBoard = new TestClasses.TestBoard();
+        Ship testShip = new Ship("testShip", 2);
+        testBoard.addShip(testShip, 0, 0);
+
+        game.setComputerPlayer(computerPlayer);
+
+        Mockito.when(game.getPlayerBoard()).thenReturn(testBoard);
+        Mockito.when(game.getComputerBoard()).thenReturn(testBoard);
+        Mockito.when(computerPlayer.generateValidHitRequest()).thenReturn(new Request(null, 0, 0));
+        Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
+        Mockito.doReturn("Computer Player is the Winner!").when(game).getWinner();
+        Mockito.when(game.getIsGameStarted()).thenReturn(true);
+
+        Mockito.doReturn(true).when(game).isGameOver();
+        Mockito.doReturn(new Boardable[] {testBoard}).when(game).getBoards();
+
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.post("/board/computer_turn")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8");
+
+
+        this.mockMvc.perform(builder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("The Game is Over! Computer Player is the Winner!"))
+                .andDo(MockMvcResultHandlers.print());
     }
 
     @Test

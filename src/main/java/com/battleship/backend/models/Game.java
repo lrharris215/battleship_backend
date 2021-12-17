@@ -57,9 +57,10 @@ public class Game {
         playerShipList.remove(deletedShip);
     }
 
-    public void takeComputerTurn(){
+    public String takeComputerTurn(){
         Request hitRequest = computerPlayer.generateValidHitRequest();
         fire(getPlayerBoard(), hitRequest);
+        return shipHitResult(getPlayerBoard(), hitRequest);
     }
 
     // check if game is over
@@ -131,4 +132,7 @@ public class Game {
         return hitRequestValidator;
     }
 
+    public ComputerPlayer getComputerPlayer() { return computerPlayer;}
+
+    public void setComputerPlayer(ComputerPlayer computerPlayer) { this.computerPlayer = computerPlayer;}
 }

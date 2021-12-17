@@ -30,15 +30,13 @@ public class ComputerPlayer {
     }
 
     public Request generateValidHitRequest(){
-        int randRow = rand.nextInt(playerBoard.getSize());
-        int randCol = rand.nextInt(playerBoard.getSize());
-
+        int randRow = rand.nextInt(getPlayerBoard().getSize());
+        int randCol = rand.nextInt(getPlayerBoard().getSize());
         Request randHitRequest = requestFactory.generateHitRequest(randRow, randCol);
 
         while(!hitRequestValidator.isValid(playerBoard, randHitRequest)){
-            randRow = rand.nextInt(playerBoard.getSize());
-            randCol = rand.nextInt(playerBoard.getSize());
-
+            randRow = rand.nextInt(getPlayerBoard().getSize());
+            randCol = rand.nextInt(getPlayerBoard().getSize());
             randHitRequest = requestFactory.generateHitRequest(randRow, randCol);
         }
         return randHitRequest;
@@ -75,6 +73,10 @@ public class ComputerPlayer {
 
     public Ship[] getShipList() {
         return shipList;
+    }
+
+    public Boardable getPlayerBoard(){
+        return playerBoard;
     }
 
     // Setters
