@@ -1,6 +1,7 @@
 package com.battleship.backend.models;
 
 import com.battleship.backend.BoardRepository;
+import com.battleship.backend.TestClasses;
 import com.battleship.backend.validators.HitRequestValidator;
 import com.battleship.backend.validators.PlaceShipsValidator;
 import com.battleship.backend.validators.Validator;
@@ -196,6 +197,63 @@ class GameTest {
         sinkShip(testShip1);
 
         assertEquals("Game is not over", game.getWinner());
+    }
+
+    @Test
+    void testShipHitResultReturnsMissedMessageIfMissed(){
+        Boardable testBoard = new TestClasses.TestBoard();
+        testBoard.addShip(testShip1, 1, 0);
+        game.getPlayerBoard().addShip(testShip1, 0, 0);
+        game.getComputerBoard().addShip(testShip1, 0, 0);
+        Request hitRequest = new Request(null, 0, 0);
+        assertEquals("Missed!", game.shipHitResult(testBoard, hitRequest));
+    }
+
+    @Test
+    void testShipHitResultReturnsHitShipMessageIfShipIsHit(){
+        game.getPlayerBoard().addShip(testShip1, 0, 0);
+        game.getComputerBoard().addShip(testShip1, 0, 0);
+        Request hitRequest = new Request(null, 0, 0);
+
+        assertEquals("The Player Board's testShip1 has been hit!", game.shipHitResult(game.getPlayerBoard(), hitRequest));
+    }
+
+    @Test
+    void testShipHitResultReturnsShipSunkMessageIfShipIsSunk(){
+        game.getPlayerBoard().addShip(testShip1, 0, 0);
+        game.getPlayerBoard().addShip(testShip2, 1, 0);
+
+        game.getComputerBoard().addShip(testShip1, 0, 0);
+        game.getComputerBoard().addShip(testShip2, 1, 0);
+
+        Request hitRequest = new Request(null, 0, 0);
+        Request hitRequest2 =  new Request(null, 0, 1);
+        Request hitRequest3 =  new Request(null,0, 2);
+        game.fire(game.getPlayerBoard(), hitRequest);
+        game.fire(game.getPlayerBoard(), hitRequest2);
+        game.fire(game.getPlayerBoard(), hitRequest3);
+
+        assertEquals("The Player Board's testShip1 has been hit! The testShip1 has been sunk!", game.shipHitResult(game.getPlayerBoard(), hitRequest3));
+    }
+
+    @Test
+    void testShipHitResultReturnsWinnerMessageIfGameIsOver(){
+        Ship testShip3 =  new Ship("testShip3", 2);
+        Ship testShip4 =  new Ship("testShip4", 2);
+        game.getPlayerBoard().addShip(testShip1, 0, 0);
+
+        game.getComputerBoard().addShip(testShip3, 0, 0);
+        game.getComputerBoard().addShip(testShip4, 1, 0);
+
+        Request hitRequest = new Request(null, 0, 0);
+        Request hitRequest2 =  new Request(null, 0, 1);
+        Request hitRequest3 =  new Request(null,0, 2);
+
+        game.fire(game.getPlayerBoard(), hitRequest);
+        game.fire(game.getPlayerBoard(), hitRequest2);
+        game.fire(game.getPlayerBoard(), hitRequest3);
+
+        assertEquals("The Game is Over! Computer Player is the Winner!", game.shipHitResult(game.getPlayerBoard(), hitRequest3));
     }
 
    private boolean hasPlayerBoardBeenFiredUpon(Boardable board){

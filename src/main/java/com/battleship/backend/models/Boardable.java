@@ -24,4 +24,6 @@ public interface Boardable {
     boolean isPermutationOfShipList(ArrayList<Ship> otherShipList);
 
     boolean isEveryShipSunk();
+
+    Ship getShip(String name);
 }
