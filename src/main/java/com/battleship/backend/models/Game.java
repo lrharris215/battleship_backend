@@ -9,9 +9,10 @@ import java.util.Arrays;
 
 @Component
 public class Game {
+
+    final ArrayList<Ship> shipList;
     BoardRepository boardRepository;
     ComputerPlayer computerPlayer;
-   final ArrayList<Ship> shipList;
     Validator placeShipsValidator;
     Validator hitRequestValidator;
     boolean isGameStarted;
@@ -63,11 +64,9 @@ public class Game {
         return shipHitResult(getPlayerBoard(), hitRequest);
     }
 
-    // check if game is over
     public boolean isGameOver(){
         return getPlayerBoard().isEveryShipSunk() || getComputerBoard().isEveryShipSunk();
     }
-    // check winner
 
     public String getWinner(){
         if(getPlayerBoard().isEveryShipSunk()){
@@ -93,6 +92,7 @@ public class Game {
         }
         return hitResult;
     }
+
     private void setUpComputerBoard() {
         Boardable computerBoard = boardRepository.getComputerBoard();
         for (Ship ship : computerPlayer.getShipList()) {
