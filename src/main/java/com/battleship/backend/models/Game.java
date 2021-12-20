@@ -9,9 +9,10 @@ import java.util.Arrays;
 
 @Component
 public class Game {
+
+    final ArrayList<Ship> shipList;
     BoardRepository boardRepository;
     ComputerPlayer computerPlayer;
-   final ArrayList<Ship> shipList;
     Validator placeShipsValidator;
     Validator hitRequestValidator;
     boolean isGameStarted;
@@ -57,9 +58,37 @@ public class Game {
         playerShipList.remove(deletedShip);
     }
 
-    public void takeComputerTurn(){
+    public String takeComputerTurn(){
         Request hitRequest = computerPlayer.generateValidHitRequest();
         fire(getPlayerBoard(), hitRequest);
+        return shipHitResult(getPlayerBoard(), hitRequest);
+    }
+
+    public boolean isGameOver(){
+        return getPlayerBoard().isEveryShipSunk() || getComputerBoard().isEveryShipSunk();
+    }
+
+    public String getWinner(){
+        if(getPlayerBoard().isEveryShipSunk()){
+            return "Computer Player is the Winner!";
+        }else if(getComputerBoard().isEveryShipSunk()){
+            return "Human Player is the Winner!";
+        }else return "Game is not over";
+    }
+
+    public String shipHitResult(Boardable board, Request hitRequest){
+        String hitResult = "Missed!";
+        Sectionable hitSection = board.getSection(hitRequest.getRow(), hitRequest.getCol());
+         if(hitSection.getIsShip()){
+            hitResult = "The " + board.getName() + "'s " + hitSection.getShipName() + " has been hit!";
+            if(board.getShip(hitSection.getShipName()).checkIsSunk()){
+                hitResult +=  " The " + hitSection.getShipName() +" has been sunk!";
+            }
+             if(this.isGameOver()){
+                 hitResult += " The Game is Over! " + this.getWinner();
+             }
+         }
+        return hitResult;
     }
 
     private void setUpComputerBoard() {
@@ -105,4 +134,7 @@ public class Game {
         return hitRequestValidator;
     }
 
+    public ComputerPlayer getComputerPlayer() { return computerPlayer;}
+
+    public void setComputerPlayer(ComputerPlayer computerPlayer) { this.computerPlayer = computerPlayer;}
 }

@@ -84,6 +84,14 @@ public class TestClasses {
             return true;
         }
 
+        public boolean isEveryShipSunk(){
+                return false;
+        }
+
+        public Ship getShip(String name) {
+            return new Ship("Test Ship", 2);
+        }
+
         public void hitSection(int row, int col) {
             getSection(row, col).receiveHit();
         }

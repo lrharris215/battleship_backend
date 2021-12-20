@@ -33,7 +33,7 @@ public class GameController {
 
     @PatchMapping("/board/place")
     public @ResponseBody
-    Boardable placeShip(@RequestBody Request placeRequest) throws Exception{
+    Boardable placeShip(@RequestBody Request placeRequest) throws Exception {
         Boardable playerBoard = game.getPlayerBoard();
         if(game.getIsGameStarted()){
             throw new GameHasAlreadyStartedException();
@@ -51,17 +51,22 @@ public class GameController {
 
     @PatchMapping("/board/hit")
     public @ResponseBody
-    Boardable[] hitShip(@RequestBody Request hitRequest) throws Exception{
+    String hitShip(@RequestBody Request hitRequest) throws Exception {
         Boardable computerBoard = game.getComputerBoard();
         if(!game.getIsGameStarted()){
             throw new GameNotReadyToStartException();
         }else if(hitRequestValidator.isValid(computerBoard, hitRequest)){
             game.fire(computerBoard, hitRequest);
-            game.takeComputerTurn();
-            return game.getBoards();
+            return game.shipHitResult(computerBoard, hitRequest);
         }else {
             throw new InvalidHitException();
         }
+    }
+
+    @PostMapping("/board/computer_turn")
+    public @ResponseBody
+    String computerTurn() throws Exception {
+        return game.takeComputerTurn();
     }
 
     @PostMapping("/game/start")
