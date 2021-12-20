@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 
 @Controller
+@CrossOrigin(origins = {"http://localhost:3000","https://main.d11avqshcwqpec.amplifyapp.com"} )
 public class GameController {
     Validator placeShipsValidator;
     Validator hitRequestValidator;
