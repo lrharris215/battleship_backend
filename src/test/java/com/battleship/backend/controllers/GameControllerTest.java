@@ -175,6 +175,9 @@ class GameControllerTest {
     @Test
     void testHitShipReturnsWinnerMessageIfGameHasBeenWon() throws Exception {
         Boardable testBoard = new TestClasses.TestBoard();
+        testBoard.addShip(new Ship("testShip", 2), 0, 0);
+
+
 
         Mockito.when(game.getComputerBoard()).thenReturn(testBoard);
         Mockito.when(hitValidator.isValid(Mockito.isA(Boardable.class), Mockito.isA(Request.class))).thenReturn(true);
@@ -193,7 +196,7 @@ class GameControllerTest {
 
         this.mockMvc.perform(builder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("The Game is Over! Human Player is the Winner!"))
+                .andExpect(MockMvcResultMatchers.content().string("The testBoard's testShip has been hit! The Game is Over! Human Player is the Winner!"))
                 .andDo(MockMvcResultHandlers.print());
     }
 
@@ -343,7 +346,7 @@ class GameControllerTest {
 
         this.mockMvc.perform(builder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("The Game is Over! Computer Player is the Winner!"))
+                .andExpect(MockMvcResultMatchers.content().string("The testBoard's testShip has been hit! The Game is Over! Computer Player is the Winner!"))
                 .andDo(MockMvcResultHandlers.print());
     }
 

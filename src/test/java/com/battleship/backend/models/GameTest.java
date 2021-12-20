@@ -253,7 +253,7 @@ class GameTest {
         game.fire(game.getPlayerBoard(), hitRequest2);
         game.fire(game.getPlayerBoard(), hitRequest3);
 
-        assertEquals("The Game is Over! Computer Player is the Winner!", game.shipHitResult(game.getPlayerBoard(), hitRequest3));
+        assertEquals("The Player Board's testShip1 has been hit! The testShip1 has been sunk! The Game is Over! Computer Player is the Winner!", game.shipHitResult(game.getPlayerBoard(), hitRequest3));
     }
 
    private boolean hasPlayerBoardBeenFiredUpon(Boardable board){

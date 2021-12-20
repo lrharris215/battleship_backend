@@ -76,8 +76,6 @@ public class Game {
         }else return "Game is not over";
     }
 
-    //returns result of a hit request
-
     public String shipHitResult(Boardable board, Request hitRequest){
         String hitResult = "Missed!";
         Sectionable hitSection = board.getSection(hitRequest.getRow(), hitRequest.getCol());
@@ -86,10 +84,10 @@ public class Game {
             if(board.getShip(hitSection.getShipName()).checkIsSunk()){
                 hitResult +=  " The " + hitSection.getShipName() +" has been sunk!";
             }
+             if(this.isGameOver()){
+                 hitResult += " The Game is Over! " + this.getWinner();
+             }
          }
-        if(this.isGameOver()){
-            hitResult = "The Game is Over! " + this.getWinner();
-        }
         return hitResult;
     }
 
