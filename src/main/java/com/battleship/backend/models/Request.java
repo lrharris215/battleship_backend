@@ -5,7 +5,7 @@ public class Request {
     int row;
     int col;
 
-//    public Request(){}
+    public Request(){}
 
     public Request(Ship ship, int row, int col){
         this.ship = ship;
